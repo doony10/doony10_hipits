@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="hello">Hello World, SMSTest3Activity!</string>
+    <string name="app_name">인맥관리프로그램</string>
+	<string name="button_yes">예</string>
+    <string name="button_no">아니오</string>
+    <string name="alert_msg_exit">인맥관리를\n 종료 하시겠습니까?</string>
+
+    
+</resources>
