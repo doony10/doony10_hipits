@@ -138,14 +138,17 @@ public class spinnerSort extends Activity {
 				String tag="intent";
 				String text;
 				Log.v(tag, "no1");
-				Intent intent = new Intent(spinnerSort.this, GraphViewActivity.class);
+				Intent intent = new Intent(spinnerSort.this, NumberInfo.class);
 				if (flag==2){
+					intent.putExtra("number", (String) result3.get(arg2));
 					Log.v(tag, (String) result3.get(arg2));
 				}
 				else if(flag ==1){
+					intent.putExtra("number", (String) result2.get(arg2));
 					Log.v(tag, (String) result2.get(arg2));
 				}
 				else {
+					intent.putExtra("number", (String) result1.get(arg2));
 					Log.v(tag, (String) result1.get(arg2));
 				}
 				Log.v(tag, "no2");
