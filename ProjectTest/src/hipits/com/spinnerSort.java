@@ -1,5 +1,6 @@
 package hipits.com;
 
+import java.io.ObjectOutputStream.PutField;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -32,6 +33,7 @@ public class spinnerSort extends Activity {
 	ArrayAdapter adapter3;
 	String number="", message="";
 	long date;
+	int flag;
 	
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -78,9 +80,9 @@ public class spinnerSort extends Activity {
 		int indextime = mCursor.getColumnIndex("time");
 		mCursor.moveToFirst();
 		
-		ArrayList result1= new ArrayList();
-		ArrayList result2= new ArrayList();
-		ArrayList result3= new ArrayList();
+		final ArrayList result1= new ArrayList();
+		final ArrayList result2= new ArrayList();
+		final ArrayList result3= new ArrayList();
 		
 		while (!mCursor.isAfterLast()){
 			number = mCursor.getString(indexnumber);			
@@ -111,12 +113,16 @@ public class spinnerSort extends Activity {
 						int arg2, long arg3) {
 					if (CATEGORY[(int) arg3].equals("30일이상 연락 되지않은 사람들")){
 						listView_list.setAdapter(adapter1);
+						flag = 0;
 					}
 					else if (CATEGORY[(int) arg3].equals("15일~30일전에 연락한 사람들")){
 						listView_list.setAdapter(adapter2);
+						flag = 1;
 					}
-					else 
+					else {
 						listView_list.setAdapter(adapter3);
+						flag = 2;
+					}
 				}
 
 				public void onNothingSelected(AdapterView<?> arg0) {
@@ -130,8 +136,18 @@ public class spinnerSort extends Activity {
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 				String tag="intent";
+				String text;
 				Log.v(tag, "no1");
 				Intent intent = new Intent(spinnerSort.this, GraphViewActivity.class);
+				if (flag==2){
+					Log.v(tag, (String) result3.get(arg2));
+				}
+				else if(flag ==1){
+					Log.v(tag, (String) result2.get(arg2));
+				}
+				else {
+					Log.v(tag, (String) result1.get(arg2));
+				}
 				Log.v(tag, "no2");
 				startActivity(intent);
 				Log.v(tag, "no3");
