@@ -6,6 +6,7 @@
 
     <uses-sdk android:minSdkVersion="7" />
     <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+    <uses-permission android:name="android.permission.READ_CONTACTS"/>
 
     <application
         android:icon="@drawable/ic_launcher"
@@ -27,6 +28,7 @@
         <activity android:name="GraphViewActivity"></activity>
         <activity android:name="spinnerSort"></activity>
         <activity android:name="NumberInfo"></activity>
+        <activity android:name=".LVSample3"></activity>
     </application>
 
 </manifest>

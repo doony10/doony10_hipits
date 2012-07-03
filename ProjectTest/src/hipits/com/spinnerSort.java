@@ -49,8 +49,11 @@ public class spinnerSort extends Activity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (item.getItemId()==R.id.nameinsert){
-			Intent intent = new Intent(spinnerSort.this, GraphViewActivity.class);
+			Log.v("start", "go");
+			Intent intent = new Intent(spinnerSort.this, LVSample3.class);
+			Log.v("start", "gogo");
 			startActivity(intent);
+			Log.v("start", "gogogo");
 		}
 		return super.onOptionsItemSelected(item);
 	}
