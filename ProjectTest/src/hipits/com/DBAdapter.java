@@ -68,18 +68,18 @@ public class DBAdapter {
 	}
 	
 	//테이블 내의 데이터 추가(insert)
-	public long insertEntry (String name, long time, String message){
+	public long insertEntry (String number, long time, String message){
 		ContentValues values = new ContentValues();
-		values.put("number", name);
+		values.put("number", number);
 		values.put("time", time);
 		values.put("message", message);
 		return mDb.insert(DATABASE_TABLE, null, values);
 	}
 	
 	//테이블 내의 데이터 수정(update)
-	public boolean updateEntry(long rowID, String name, long time, String message){
+	public boolean updateEntry(long rowID, String number, long time, String message){
 		ContentValues values = new ContentValues();
-		values.put("number", name);
+		values.put("number", number);
 		values.put("time", time);
 		values.put("message", message);
 		return mDb.update(DATABASE_TABLE, values, "id=", null)>0;

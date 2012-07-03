@@ -3,8 +3,6 @@ package hipits.com;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 
-import com.nalsil.ListViewSample.DBAdapter;
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
