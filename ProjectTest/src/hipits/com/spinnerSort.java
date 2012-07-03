@@ -49,7 +49,8 @@ public class spinnerSort extends Activity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (item.getItemId()==R.id.nameinsert){
-			Toast.makeText(this, "µÈ´Ù", Toast.LENGTH_LONG);
+			Intent intent = new Intent(spinnerSort.this, GraphViewActivity.class);
+			startActivity(intent);
 		}
 		return super.onOptionsItemSelected(item);
 	}
