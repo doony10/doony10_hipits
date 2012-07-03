@@ -7,22 +7,16 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 public class ProjectTestActivity extends Activity {
 	String number="", message="";
 	long date;
 	LinearLayout layout;
     /** Called when the activity is first created. */
-	
 	@Override
 	public void onBackPressed() {
 		String alertTitle = getResources().getString(R.string.app_name);

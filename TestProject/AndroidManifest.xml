@@ -27,6 +27,7 @@
         </receiver>
         <activity android:name="GraphViewActivity"></activity>
         <activity android:name="spinnerSort"></activity>
+        <activity android:name="LVSample3"></activity>
         <activity android:name="NumberInfo"></activity>
     </application>
 
