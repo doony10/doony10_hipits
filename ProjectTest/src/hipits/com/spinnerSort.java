@@ -15,6 +15,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -22,6 +25,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 public class spinnerSort extends Activity {
 	Spinner spinner_select;
@@ -59,7 +63,19 @@ public class spinnerSort extends Activity {
 	      .show();
 	     }
 	    return true;
-
+	}
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater	menuInflater=new MenuInflater(this);
+    	menuInflater.inflate(R.menu.menu, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if(item.getItemId()==R.id.nameinsert){
+			Toast.makeText(this, "µÈ´Ù.", Toast.LENGTH_LONG);
+		}
+		return super.onOptionsItemSelected(item);
 	}
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
