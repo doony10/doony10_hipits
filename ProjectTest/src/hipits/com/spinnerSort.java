@@ -35,9 +35,10 @@ public class spinnerSort extends Activity {
 	ArrayAdapter adapter1;
 	ArrayAdapter adapter2;
 	ArrayAdapter adapter3;
-	String number="", message="";
+	String number="", message="", name="";
 	long date;
 	int flag;
+	//DBAdapterNameList dbname;
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -50,9 +51,9 @@ public class spinnerSort extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (item.getItemId()==R.id.nameinsert){
 			Log.v("start", "go");
-			Intent intent = new Intent(spinnerSort.this, LVSample3.class);
+			/*Intent intent = new Intent(spinnerSort.this, LVSample3.class);
 			Log.v("start", "gogo");
-			startActivity(intent);
+			startActivity(intent);*/
 			Log.v("start", "gogogo");
 		}
 		return super.onOptionsItemSelected(item);
@@ -105,17 +106,32 @@ public class spinnerSort extends Activity {
 			//시간 포멧으로 만든다.
 			SimpleDateFormat currentDateFormat = new SimpleDateFormat("yyyy/MM/dd");
 			String currentDate = currentDateFormat.format(date);
-			
+			/*Log.v("load", "name");
+			dbname=new DBAdapterNameList(spinnerSort.this);//번호와 이름을 비교한다.
+			Log.v("load", "name1");
+			Cursor nameCursor = dbname.getEntry(number);
+			Log.v("load", "name2");
+			int indexname = nameCursor.getColumnIndex("name");
+			Log.v("load", "name3");
+			nameCursor.moveToFirst();
+			Log.v("load", "name4");
+			while(!nameCursor.isAfterLast()){
+				Log.v("load", "name5");
+				name = nameCursor.getString(indexname);
+				Log.v("load", name);
+				nameCursor.moveToNext();
+				Log.v("load", "name7");
+			}*/
 			if (subTime >= 2592000000l){		//한달이상
-				result1.add(number+"       "+currentDate);
+				result1.add(number+name+"       "+currentDate);
 				adapter1=new ArrayAdapter(spinnerSort.this, R.layout.listview_text, result1);
 			}
 			else if (subTime < 2592000000l && subTime >=1296000000){		//보름이상
-				result2.add(number+"       "+currentDate);
+				result2.add(number+name+"       "+currentDate);
 				adapter2=new ArrayAdapter(spinnerSort.this, R.layout.listview_text, result2);
 			}
 			else if (subTime < 1296000000){		//최근
-				result3.add(number+"      "+currentDate);
+				result3.add(number+name+"      "+currentDate);
 				adapter3 = new ArrayAdapter(spinnerSort.this, R.layout.listview_text, result3);
 			}
 			mCursor.moveToNext();

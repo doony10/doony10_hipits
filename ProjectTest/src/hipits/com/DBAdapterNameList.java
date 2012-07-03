@@ -93,8 +93,8 @@ public class DBAdapterNameList {
 		return mDb.query(DATABASE_TABLE, new String[]{"id", "name", "number"}, null, null, null, null, null,null);
 	}
 	
-	public Cursor getEntry(long rowID) throws SQLException{
-		Cursor mCursor = mDb.query(DATABASE_TABLE, new String[]{"id", "name", "number"}, "id="+rowID, null, null, null, null,null);
+	public Cursor getEntry(String number) throws SQLException{
+		Cursor mCursor = mDb.query(DATABASE_TABLE, new String[]{"id", "name", "number"}, "number="+number, null, null, null, null,null);
 		if (mCursor != null) mCursor.moveToFirst();
 		return mCursor;
 		
