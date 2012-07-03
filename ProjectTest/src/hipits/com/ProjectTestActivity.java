@@ -1,5 +1,7 @@
 package hipits.com;
 
+import com.nalsil.ListViewSample.DBAdapter;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
