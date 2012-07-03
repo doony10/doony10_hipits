@@ -40,43 +40,35 @@ public class spinnerSort extends Activity {
 	int flag;
 	
 	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		switch(keyCode){
-	     case KeyEvent.KEYCODE_BACK:
-	      String alertTitle = getResources().getString(R.string.app_name);
-	      String buttonMessage = getResources().getString(R.string.alert_msg_exit);
-	      String buttonYes = getResources().getString(R.string.button_yes);
-	      String buttonNo = getResources().getString(R.string.button_no);
-	         
-	      new AlertDialog.Builder(spinnerSort.this)
-	      .setTitle(alertTitle)
-	      .setMessage(buttonMessage)
-	      .setPositiveButton(buttonYes, new DialogInterface.OnClickListener() {
-	    	  
-	       public void onClick(DialogInterface dialog, int which) {
-	        // TODO Auto-generated method stub
-	        moveTaskToBack(true);
-	        finish();
-	       }
-	      })
-	      .setNegativeButton(buttonNo, null)
-	      .show();
-	     }
-	    return true;
-	}
-	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater	menuInflater=new MenuInflater(this);
-    	menuInflater.inflate(R.menu.menu, menu);
+		MenuInflater menuInflater = new MenuInflater(this);
+		menuInflater.inflate(R.menu.menu, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
+	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		if(item.getItemId()==R.id.nameinsert){
-			Toast.makeText(this, "된다.", Toast.LENGTH_LONG);
+		if (item.getItemId()==R.id.nameinsert){
+			Toast.makeText(this, "된다", Toast.LENGTH_LONG);
 		}
 		return super.onOptionsItemSelected(item);
 	}
+	@Override
+	public void onBackPressed() {
+		String alertTitle = getResources().getString(R.string.app_name);
+		String buttonMessage = getResources().getString(R.string.alert_msg_exit);
+		String buttonYes = getResources().getString(R.string.button_yes);
+		String buttonNo = getResources().getString(R.string.button_no);
+		new AlertDialog.Builder(spinnerSort.this)
+	      .setTitle(alertTitle)
+	      .setMessage(buttonMessage)
+	      .setPositiveButton(buttonYes, new DialogInterface.OnClickListener() {
+	    	  public void onClick(DialogInterface dialog, int which) {
+	    		  finish();
+	    	  }
+	    	  }).setNegativeButton(buttonNo, null).show();
+			//super.onBackPressed();
+		}		    
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
