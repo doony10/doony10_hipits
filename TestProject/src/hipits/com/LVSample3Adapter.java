@@ -6,6 +6,7 @@ import java.util.Hashtable;
 import java.util.List;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -68,7 +69,7 @@ public class LVSample3Adapter extends BaseAdapter {
 		public void onClick(View v) {
 			if (v instanceof CheckBox) {
 				CheckBox chk = (CheckBox) v;
-
+				Log.v("doony10", "doony10");
 				// switch (chk.getId()) {
 				// }
 				notifyDataSetChanged();
@@ -92,6 +93,7 @@ public class LVSample3Adapter extends BaseAdapter {
             ViewHolder holder = (ViewHolder) view.getTag();
             if (holder.chk.isChecked()){
             	lstIds.add(index);
+            	Log.v("doony10", "doont");
             }
             index++;
         }
@@ -120,7 +122,6 @@ public class LVSample3Adapter extends BaseAdapter {
             index++;
         }		
 	}
-	
 	
 	static class ViewHolder {
 		CheckBox chk;

@@ -73,7 +73,6 @@ public class LVSample3 extends Activity implements OnClickListener {
 				// TODO Auto-generated method stub
 				TextView tvTitle = (TextView) view.findViewById(R.id.title);
 				TextView tvSummary = (TextView) view.findViewById(R.id.summary);
-				ViewHolder vh = new ViewHolder();
 				String message = "Title: " + tvTitle.getText() + "\n" + "Summary:" + tvSummary.getText();
 				ShowMessageBox(LVSample3.this, message);
 			}
