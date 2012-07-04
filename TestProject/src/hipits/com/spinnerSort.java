@@ -100,41 +100,31 @@ public class spinnerSort extends Activity {
 		final ArrayList result1_day = new ArrayList();
 		final ArrayList result2_day = new ArrayList();
 		final ArrayList result3_day = new ArrayList();
+		
+		dbname=new DBAdapterNameList(spinnerSort.this);//번호와 이름을 비교한다.
+		dbname.open();
+		Cursor nameCursor = dbname.getAllEntries();
+		int indexname = nameCursor.getColumnIndex("name");
+		int indexnumberlist= nameCursor.getColumnIndex("number");
+		nameCursor.moveToFirst();
+		
 		while (!mCursor.isAfterLast()){
 			number = mCursor.getString(indexnumber);			
 			ydate = mCursor.getLong(indextime);
-	        long currentTime  =System.currentTimeMillis(); //현재 시간을 msec로 구한다.
-	        long subTime = currentTime - ydate;
-	        Date date = new Date(ydate);//현재 시간을 저장한다
+			long currentTime  =System.currentTimeMillis(); //현재 시간을 msec로 구한다.
+			long subTime = currentTime - ydate;
+			Date date = new Date(ydate);//현재 시간을 저장한다
 			//시간 포멧으로 만든다.
 			SimpleDateFormat currentDateFormat = new SimpleDateFormat("yyyy/MM/dd");
 			String currentDate = currentDateFormat.format(date);
-			Log.v("load", "name");
-			dbname=new DBAdapterNameList(spinnerSort.this);//번호와 이름을 비교한다.
-			dbname.open();
-			Log.v("load", "name1");
-			Cursor nameCursor = dbname.getAllEntries();
-			Log.v("load", "name2");
-			int indexname = nameCursor.getColumnIndex("name");
-			int indexnumberlist= nameCursor.getColumnIndex("number");
-			Log.v("load", "name3");
-			nameCursor.moveToFirst();
-			Log.v("load", "name4");
-			while(!nameCursor.isAfterLast()){
-				Log.v("load", "name5");
-				name = nameCursor.getString(indexname);
-				numberlist = nameCursor.getString(indexnumberlist);
-				if (numberlist.equals(number)){
-					
-				}
-				Log.v("load", name);
-				nameCursor.moveToNext();
-				Log.v("load", "name6");
-			}
-			nameCursor.close();
-			dbname.close();
+
 			if (subTime >= 2592000000l){		//한달이상
-				result1.add(number);
+				if(number==numberlist){
+					result1.add(name);
+				}
+				else{
+					result1.add(number);
+				}
 				result1_day.add(currentDate);
 				adapter1 = new SpinnerSortAdapter(spinnerSort.this, R.layout.spinnersorttext, result1, result1_day);
 			}
@@ -167,8 +157,7 @@ public class spinnerSort extends Activity {
 						flag = 2;
 					}
 				}
-
-				public void onNothingSelected(AdapterView<?> arg0) {
+					public void onNothingSelected(AdapterView<?> arg0) {
 				}
 			});
 	    }
