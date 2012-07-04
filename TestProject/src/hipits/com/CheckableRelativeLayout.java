@@ -6,7 +6,7 @@ import android.widget.Checkable;
 import android.widget.RelativeLayout;
 
 public class CheckableRelativeLayout extends RelativeLayout implements Checkable {
-	final String NS = "http://schemas.android.com/apk/res/com.nalsil.ListViewSample";
+	final String NS = "http://schemas.android.com/apk/res/hipits";
 	final String ATTR = "checkable";
 
 	int checkableId;

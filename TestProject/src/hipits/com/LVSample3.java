@@ -1,5 +1,7 @@
 package hipits.com;
 
+import hipits.com.LVSample3Adapter.ViewHolder;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,10 +15,11 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.Contacts;
 import android.util.Log;
-import android.view.MotionEvent;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;
 import android.webkit.WebChromeClient.CustomViewCallback;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -43,38 +46,34 @@ public class LVSample3 extends Activity implements OnClickListener {
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		Log.v("list", "no");
 		super.onCreate(savedInstanceState);
-		Log.v("list", "no1");
-		this.setContentView(R.layout.namelist);
-		Log.v("list", "no2");
+		this.setContentView(R.layout.numberlist);
+		
 		// For Buttons
 		btnSearch = (Button) findViewById(R.id.btnSearch);
-		btnSearch.setOnClickListener(this);
+		btnSearch.setOnClickListener(LVSample3.this);
 
 		btnAdd = (Button) findViewById(R.id.btnAdd);
-		btnAdd.setOnClickListener(this);
+		btnAdd.setOnClickListener(LVSample3.this);
 
 		btnDelete = (Button) findViewById(R.id.btnDelete);
-		btnDelete.setOnClickListener(this);
-		Log.v("list", "no3");
+		btnDelete.setOnClickListener(LVSample3.this);
+
 		// For Custom ListView
-		//dataSources = getDataSource();
 		dataSources = getDataSource();
-		Log.v("list", "no4");
-		adapter = new LVSample3Adapter(dataSources, this);
-		Log.v("list", "no5");
-		this.lv = (ListView) findViewById(R.id.listview);
-		this.lv.setAdapter(adapter);
-		this.lv.setItemsCanFocus(false);
-		this.lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+		adapter = new LVSample3Adapter(dataSources, LVSample3.this);
+		LVSample3.this.lv = (ListView) findViewById(R.id.listview);
+		LVSample3.this.lv.setAdapter(adapter);
+		LVSample3.this.lv.setItemsCanFocus(false);
+		LVSample3.this.lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 		// lv.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-		Log.v("list", "no6");
-		this.lv.setOnItemClickListener(new OnItemClickListener() {
+
+		LVSample3.this.lv.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> adapt, View view, int position, long id) {
 				// TODO Auto-generated method stub
 				TextView tvTitle = (TextView) view.findViewById(R.id.title);
 				TextView tvSummary = (TextView) view.findViewById(R.id.summary);
+				ViewHolder vh = new ViewHolder();
 				String message = "Title: " + tvTitle.getText() + "\n" + "Summary:" + tvSummary.getText();
 				ShowMessageBox(LVSample3.this, message);
 			}
@@ -87,7 +86,7 @@ public class LVSample3 extends Activity implements OnClickListener {
 			// long[] checkedItems = this.lv.getCheckItemIds();
 			Long[] checkedItems = ((LVSample3Adapter) adapter).getCheckItemIds();
 			if (checkedItems == null || checkedItems.length == 0) {
-				ShowMessageBox(this, "Selected Items is Nothing.");
+				ShowMessageBox(LVSample3.this, "Selected Items is Nothing.");
 				return;
 			}
 
@@ -97,17 +96,17 @@ public class LVSample3 extends Activity implements OnClickListener {
 				LVSample3Item item = dataSources.get((int) pos);
 				message += String.format("%d[%s, %s]\n", pos, item.getTitle(), item.getNumber());
 			}
-			ShowMessageBox(this, message);
+			ShowMessageBox(LVSample3.this, message);
 
 		} else if (view.getId() == R.id.btnAdd) {
-			/*addDataSource(this.dataSources);
+			/*aataSource(this.dataSources);
 			((LVSample3Adapter) adapter).notifyDataSetChanged();
 			ShowMessageBox(this, String.format("All items count is %d.", dataSources.size()));*/
 			dba = new DBAdapterNameList(LVSample3.this);
 			dba.open();
 			Long[] checkedItems = ((LVSample3Adapter) adapter).getCheckItemIds();
 			if (checkedItems == null || checkedItems.length == 0) {
-				ShowMessageBox(this, "Selected Items is Nothing.");
+				ShowMessageBox(LVSample3.this, "Selected Items is Nothing.");
 				return;
 			}
 
@@ -118,7 +117,7 @@ public class LVSample3 extends Activity implements OnClickListener {
 				dba.insertEntry(item.getTitle(), item.getNumber());
 				message += String.format("%d[%s, %s] 추가\n", pos, item.getTitle(), item.getNumber());
 			}
-			ShowMessageBox(this, message);
+			ShowMessageBox(LVSample3.this, message);
 			dba.close();
 		} else if (view.getId() == R.id.btnDelete) {
 			int id = 0;
@@ -138,7 +137,7 @@ public class LVSample3 extends Activity implements OnClickListener {
 				Log.v("db", id+name);
 				//dba.deleteEntry(id);
 				if (checkedItems == null || checkedItems.length == 0) {
-					ShowMessageBox(this, "Selected Items is Nothing.");
+					ShowMessageBox(LVSample3.this, "Selected Items is Nothing.");
 					return;
 				}
 				String message = "";
@@ -150,9 +149,7 @@ public class LVSample3 extends Activity implements OnClickListener {
 					if (item.getTitle().equals(name)){
 						dba.deleteEntry(id);
 						Log.v("dbtest", id+name);
-						message += String.format("%d[%s, %s] 삭제\n", pos, item.getTitle(), item.getNumber());
-					}
-					ShowMessageBox(this, message);
+					}					
 				}
 				dbcurosr.moveToNext();
 				}
@@ -170,7 +167,7 @@ public class LVSample3 extends Activity implements OnClickListener {
 	            ContactsContract.Contacts.DISPLAY_NAME,
 	            ContactsContract.Contacts.HAS_PHONE_NUMBER 
 	            };
-		Cursor c = this.getContentResolver().query(ContactsContract.Contacts.CONTENT_URI, nameProjection, null, null, Contacts.DISPLAY_NAME + " ASC"); 
+		Cursor c = LVSample3.this.getContentResolver().query(ContactsContract.Contacts.CONTENT_URI, nameProjection, null, null, Contacts.DISPLAY_NAME + " ASC"); 
         c.moveToFirst();
         int contactId = c.getColumnIndex(ContactsContract.Contacts._ID);
         int nameCol = c.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);         

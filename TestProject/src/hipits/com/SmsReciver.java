@@ -21,6 +21,7 @@ public class SmsReciver extends BroadcastReceiver {
 Log.d("MY_TAG", "BroadcastReceiver onReceive()");
 		if(intent.getAction().equals("android.provider.Telephony.SEND_SMS")){
 			Toast.makeText(context, "문자 보냈숑", Toast.LENGTH_LONG).show();
+			Log.v("문자 테스트", "문자보내짐");
 		}
 		if (intent.getAction().equals("android.provider.Telephony.SMS_RECEIVED")){
 			StringBuilder stringBuilder=new StringBuilder();
