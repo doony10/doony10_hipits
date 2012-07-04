@@ -21,5 +21,6 @@ public class NumberInfo extends Activity {
 		
 		Intent intent = getIntent();
 		text_number.setText(intent.getStringExtra("number"));
+		text_date.setText(intent.getStringExtra("date"));
 	}
 }

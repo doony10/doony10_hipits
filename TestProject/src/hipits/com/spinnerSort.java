@@ -4,6 +4,7 @@ import java.io.ObjectOutputStream.PutField;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -32,9 +33,9 @@ public class spinnerSort extends Activity {
 	ListView listView_list;
 	static final String[] CATEGORY = {"30일이상 연락 되지않은 사람들","15일~30일전에 연락한 사람들", "15일이내에 연락한 사람들"};
 	long ydate;
-	ArrayAdapter adapter1;
-	ArrayAdapter adapter2;
-	ArrayAdapter adapter3;
+	SpinnerSortAdapter adapter1;
+	SpinnerSortAdapter adapter2;
+	SpinnerSortAdapter adapter3;
 	String number="", message="", name="", numberlist="";
 	long date;
 	int flag;
@@ -96,7 +97,9 @@ public class spinnerSort extends Activity {
 		final ArrayList result1= new ArrayList();
 		final ArrayList result2= new ArrayList();
 		final ArrayList result3= new ArrayList();
-		
+		final ArrayList result1_day = new ArrayList();
+		final ArrayList result2_day = new ArrayList();
+		final ArrayList result3_day = new ArrayList();
 		while (!mCursor.isAfterLast()){
 			number = mCursor.getString(indexnumber);			
 			ydate = mCursor.getLong(indextime);
@@ -121,6 +124,9 @@ public class spinnerSort extends Activity {
 				Log.v("load", "name5");
 				name = nameCursor.getString(indexname);
 				numberlist = nameCursor.getString(indexnumberlist);
+				if (numberlist.equals(number)){
+					
+				}
 				Log.v("load", name);
 				nameCursor.moveToNext();
 				Log.v("load", "name6");
@@ -128,16 +134,20 @@ public class spinnerSort extends Activity {
 			nameCursor.close();
 			dbname.close();
 			if (subTime >= 2592000000l){		//한달이상
-				result1.add(number+"       "+currentDate);
-				adapter1=new ArrayAdapter(spinnerSort.this, R.layout.listview_text, result1);
+				result1.add(number);
+				result1_day.add(currentDate);
+				adapter1 = new SpinnerSortAdapter(spinnerSort.this, R.layout.spinnersorttext, result1, result1_day);
 			}
 			else if (subTime < 2592000000l && subTime >=1296000000){		//보름이상
-				result2.add(number+"       "+currentDate);
-				adapter2=new ArrayAdapter(spinnerSort.this, R.layout.listview_text, result2);
+				result2.add(number);
+				result2_day.add(currentDate);
+				adapter2 = new SpinnerSortAdapter(spinnerSort.this, R.layout.spinnersorttext, result2, result2_day);
 			}
 			else if (subTime < 1296000000){		//최근
-				result3.add(number+"      "+currentDate);
-				adapter3 = new ArrayAdapter(spinnerSort.this, R.layout.listview_text, result3);
+				result3.add(number);
+				result3_day.add(currentDate);
+				Log.v("spinnertext", currentDate);
+				adapter3 = new SpinnerSortAdapter(spinnerSort.this, R.layout.spinnersorttext, result3, result3_day);
 			}
 			mCursor.moveToNext();
 			spinner_select.setOnItemSelectedListener(new OnItemSelectedListener() {
@@ -174,14 +184,17 @@ public class spinnerSort extends Activity {
 				Intent intent = new Intent(spinnerSort.this, NumberInfo.class);
 				if (flag==2){
 					intent.putExtra("number", (String) result3.get(arg2));
+					intent.putExtra("date", (String) result3_day.get(arg2));
 					Log.v(tag, (String) result3.get(arg2));
 				}
 				else if(flag ==1){
 					intent.putExtra("number", (String) result2.get(arg2));
+					intent.putExtra("date", (String) result2_day.get(arg2));
 					Log.v(tag, (String) result2.get(arg2));
 				}
 				else {
 					intent.putExtra("number", (String) result1.get(arg2));
+					intent.putExtra("date", (String) result3_day.get(arg2));
 					Log.v(tag, (String) result1.get(arg2));
 				}
 				Log.v(tag, "no2");
