@@ -14,17 +14,21 @@ public class DBAdapter {
 	//데이터베이스 버전은 나중에 데이터베이스를 업데이트 할 때 업데이트 여부를 결장하는 기준이 된다.
 	private static final String DATABASE_NAME = "numbermanager.db";
 	private static final String DATABASE_TABLE = "manager";
+	private static final String DATABASE_TABLE2="namemanager"; 
 	private static final int DATABASE_VERSION = 1;
 	
 	//데이터베이스 초기화에 필요한 SQL문장들
 	//일반적을 테이블 생성 및 삭제하는 문장이 들어간다.
 	private static final String DATABASE_TABLE_CREATE =
 			"CREATE TABLE " + DATABASE_TABLE + "(id INTEGER PRIMARY KEY AUTOINCREMENT, "+ "number TEXT NOT NULL, " + "time LONG NOT NULL,"+"message TEXT NOT NULL);";
+	private static final String DATABASE_TABLE_CREATE2 =
+			"CREATE TABLE " + DATABASE_TABLE2 + "(id INTEGER PRIMARY KEY AUTOINCREMENT, "+ "name TEXT NOT NULL, "+"number TEXT NOT NULL);";
 	
 	private static final String DATABASE_TABLE_DROP = "DROP TABLE IF EXISTS "+ DATABASE_TABLE;
+	private static final String DATABASE_TABLE_DROP2 = "DROP TABLE IF EXISTS "+ DATABASE_TABLE2;
 	
 	private SQLiteDatabase mDb;
-	private DatabaseHelper mDbHelper;
+	private DatabaseHelper mDbHelper,mDbHelper2;
 	private Context context;
 	
 	public DBAdapter(Context _context){
@@ -45,6 +49,7 @@ public class DBAdapter {
 		@Override
 		public void onCreate(SQLiteDatabase db) {
 			db.execSQL(DATABASE_TABLE_CREATE);
+			db.execSQL(DATABASE_TABLE_CREATE2);
 		}
 
 		//테이블 업그레이드
@@ -53,6 +58,7 @@ public class DBAdapter {
 			Log.w("MY_TAG", "Upgrading DB from version"+ oldVersion + "to"+newVersion + ", which will destroy all old data");
 			
 			db.execSQL(DATABASE_TABLE_DROP);
+			db.execSQL(DATABASE_TABLE_DROP2);
 			onCreate(db);
 		}		
 	}
@@ -76,6 +82,12 @@ public class DBAdapter {
 		return mDb.insert(DATABASE_TABLE, null, values);
 	}
 	
+	public long insertEntry2(String name, String number){
+		ContentValues values = new ContentValues();
+		values.put("name", name);
+		values.put("number", number);
+		return mDb.insert(DATABASE_TABLE2, null, values);
+	}
 	//테이블 내의 데이터 수정(update)
 	public boolean updateEntry(long rowID, String name, long time, String message){
 		ContentValues values = new ContentValues();
@@ -85,9 +97,19 @@ public class DBAdapter {
 		return mDb.update(DATABASE_TABLE, values, "id=", null)>0;
 	}
 	
+	public boolean updateEntry2(long rowID, String name, String number){
+		ContentValues values = new ContentValues();
+		values.put("name", name);
+		values.put("number", number);
+		return mDb.update(DATABASE_TABLE2, values, "id=", null)>0;
+	}
+	
 	//테이블 내의 데이터 삭제(delete)
 	public boolean deleteEntry(long rowID){
 		return mDb.delete(DATABASE_TABLE, "id="+rowID, null)>0;
+	}
+	public boolean deleteEntry2(long rowID){
+		return mDb.delete(DATABASE_TABLE2, "id="+rowID, null)>0;
 	}
 	
 	//테이블 내의 데이터 질의(query)
@@ -97,6 +119,17 @@ public class DBAdapter {
 	
 	public Cursor getEntry(long rowID) throws SQLException{
 		Cursor mCursor = mDb.query(DATABASE_TABLE, new String[]{"id","number", "time", "message"}, "id="+rowID, null, null, null, null,null);
+		if (mCursor != null) mCursor.moveToFirst();
+		return mCursor;
+		
+	}
+	
+	public Cursor getAllEntries2(){
+		return mDb.query(DATABASE_TABLE2, new String[]{"id", "name", "number"}, null, null, null, null, null,null);
+	}
+	
+	public Cursor getEntry2(long rowID) throws SQLException{
+		Cursor mCursor = mDb.query(DATABASE_TABLE2, new String[]{"id", "name", "number"}, "id="+rowID, null, null, null, null,null);
 		if (mCursor != null) mCursor.moveToFirst();
 		return mCursor;
 		

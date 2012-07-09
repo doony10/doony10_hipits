@@ -12,8 +12,8 @@ import android.util.Log;
 public class DBAdapterNameList {
 	//데이터베이스 정보 (데이터베이스 이름/버젼, 테이블 이름)
 	//데이터베이스 버전은 나중에 데이터베이스를 업데이트 할 때 업데이트 여부를 결장하는 기준이 된다.
-	private static final String DATABASE_NAME = "namemanager.db";
-	private static final String DATABASE_TABLE = "testnumbers";
+	private static final String DATABASE_NAME = "numbermanager.db";
+	private static final String DATABASE_TABLE = "numbersname";
 	private static final int DATABASE_VERSION = 1;
 	
 	//데이터베이스 초기화에 필요한 SQL문장들
@@ -51,7 +51,6 @@ public class DBAdapterNameList {
 		@Override
 		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 			Log.w("MY_TAG", "Upgrading DB from version"+ oldVersion + "to"+newVersion + ", which will destroy all old data");
-			
 			db.execSQL(DATABASE_TABLE_DROP);
 			onCreate(db);
 		}		

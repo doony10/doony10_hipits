@@ -39,7 +39,9 @@ public class ProjectTestActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 		DBAdapter db = new DBAdapter(getApplicationContext());
+		DBAdapterNameList dbn = new DBAdapterNameList(getApplicationContext());
 		db.open();
+		dbn.open();
 		layout = (LinearLayout) findViewById(R.id.layout);
 		layout.setOnTouchListener(new OnTouchListener() {
 			
@@ -51,5 +53,6 @@ public class ProjectTestActivity extends Activity {
 			}
 		});
 		db.close();
+		dbn.close();
     }
     }

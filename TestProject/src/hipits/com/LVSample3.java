@@ -96,8 +96,8 @@ public class LVSample3 extends Activity implements OnClickListener {
 				message += String.format("%d[%s, %s]\n", pos, item.getTitle(), item.getNumber());
 			}
 			ShowMessageBox(LVSample3.this, message);
-
-		} else if (view.getId() == R.id.btnAdd) {
+		} 
+			else if (view.getId() == R.id.btnAdd) {
 			/*aataSource(this.dataSources);
 			((LVSample3Adapter) adapter).notifyDataSetChanged();
 			ShowMessageBox(this, String.format("All items count is %d.", dataSources.size()));*/
@@ -108,16 +108,15 @@ public class LVSample3 extends Activity implements OnClickListener {
 				ShowMessageBox(LVSample3.this, "Selected Items is Nothing.");
 				return;
 			}
-
-			String message = "";
-			for (int index = 0; index < checkedItems.length; index++) {
-				long pos = checkedItems[index];
-				LVSample3Item item = dataSources.get((int) pos);
-				dba.insertEntry(item.getTitle(), item.getNumber());
-				message += String.format("%d[%s, %s] 추가\n", pos, item.getTitle(), item.getNumber());
-			}
-			ShowMessageBox(LVSample3.this, message);
-			dba.close();
+				String message = "";
+				for (int index = 0; index < checkedItems.length; index++) {
+					long pos = checkedItems[index];
+					LVSample3Item item = dataSources.get((int) pos);
+					dba.insertEntry(item.getTitle(), item.getNumber());
+					message += String.format("%d[%s, %s] 추가\n", pos, item.getTitle(), item.getNumber());
+				}
+				ShowMessageBox(LVSample3.this, message);
+				dba.close();
 		} else if (view.getId() == R.id.btnDelete) {
 			int id = 0;
 			String name = null;

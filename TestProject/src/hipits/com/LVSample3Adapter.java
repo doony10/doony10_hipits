@@ -13,6 +13,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class LVSample3Adapter extends BaseAdapter {
@@ -50,8 +51,10 @@ public class LVSample3Adapter extends BaseAdapter {
 			holder.tvTitle = (TextView) convertView.findViewById(R.id.title);
 			holder.tvSummary = (TextView) convertView.findViewById(R.id.summary);
 			holder.chk = (CheckBox) convertView.findViewById(R.id.check);
+			holder.linearLayout = (CheckableRelativeLayout) convertView.findViewById(R.id.checkliner);
 			holder.chk.setId(position);
 			holder.chk.setOnClickListener(listener);
+			holder.linearLayout.setOnClickListener(listener2);
 
 			convertView.setTag(holder);
 			hashConvertView.put(position, convertView);
@@ -77,7 +80,16 @@ public class LVSample3Adapter extends BaseAdapter {
 			}
 		}
 	};
-
+	private final OnClickListener listener2 = new OnClickListener() {
+		public void onClick(View v) {
+			ViewHolder vh = new ViewHolder();
+			vh.chk = (CheckBox) v.findViewById(R.id.check);
+			if (v instanceof CheckBox){
+				vh.chk = (CheckBox) v;
+				notifyDataSetChanged();
+			}
+		}
+	};
 	public Long[] getCheckItemIds() {
 		if (hashConvertView == null || hashConvertView.size() == 0)
 			return null;
@@ -127,5 +139,6 @@ public class LVSample3Adapter extends BaseAdapter {
 		CheckBox chk;
 		TextView tvTitle;
 		TextView tvSummary;
+		CheckableRelativeLayout linearLayout;
 	}
 }

@@ -6,6 +6,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.xml.sax.Parser;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -36,10 +38,7 @@ public class spinnerSort extends Activity {
 	SpinnerSortAdapter adapter1;
 	SpinnerSortAdapter adapter2;
 	SpinnerSortAdapter adapter3;
-	String number="", message="", name="", numberlist="";
-	long date;
 	int flag;
-	DBAdapterNameList dbname;
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -86,6 +85,8 @@ public class spinnerSort extends Activity {
         spinner_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner_select.setAdapter(spinner_adapter);
         Log.v("ddd", "no1");
+
+    	String number="", message="";
         SQLiteDatabase mDatabase=openOrCreateDatabase(
         		"numbermanager.db", Context.MODE_PRIVATE, null);
 
@@ -101,15 +102,10 @@ public class spinnerSort extends Activity {
 		final ArrayList result2_day = new ArrayList();
 		final ArrayList result3_day = new ArrayList();
 		
-		dbname=new DBAdapterNameList(spinnerSort.this);//번호와 이름을 비교한다.
-		dbname.open();
-		Cursor nameCursor = dbname.getAllEntries();
-		int indexname = nameCursor.getColumnIndex("name");
-		int indexnumberlist= nameCursor.getColumnIndex("number");
-		nameCursor.moveToFirst();
-		
+	    Log.v("ddd", "no4");
 		while (!mCursor.isAfterLast()){
 			number = mCursor.getString(indexnumber);			
+			int num = Integer.parseInt(number);
 			ydate = mCursor.getLong(indextime);
 			long currentTime  =System.currentTimeMillis(); //현재 시간을 msec로 구한다.
 			long subTime = currentTime - ydate;
@@ -117,52 +113,49 @@ public class spinnerSort extends Activity {
 			//시간 포멧으로 만든다.
 			SimpleDateFormat currentDateFormat = new SimpleDateFormat("yyyy/MM/dd");
 			String currentDate = currentDateFormat.format(date);
-
-			if (subTime >= 2592000000l){		//한달이상
-				if(number==numberlist){
-					result1.add(name);
-				}
-				else{
+				if (subTime >= 2592000000l){		//한달이상
 					result1.add(number);
+					result1_day.add(currentDate);
 				}
-				result1_day.add(currentDate);
-				adapter1 = new SpinnerSortAdapter(spinnerSort.this, R.layout.spinnersorttext, result1, result1_day);
-			}
-			else if (subTime < 2592000000l && subTime >=1296000000){		//보름이상
-				result2.add(number);
-				result2_day.add(currentDate);
-				adapter2 = new SpinnerSortAdapter(spinnerSort.this, R.layout.spinnersorttext, result2, result2_day);
-			}
-			else if (subTime < 1296000000){		//최근
-				result3.add(number);
-				result3_day.add(currentDate);
-				Log.v("spinnertext", currentDate);
-				adapter3 = new SpinnerSortAdapter(spinnerSort.this, R.layout.spinnersorttext, result3, result3_day);
-			}
-			mCursor.moveToNext();
-			spinner_select.setOnItemSelectedListener(new OnItemSelectedListener() {
-
-				public void onItemSelected(AdapterView<?> arg0, View arg1,
-						int arg2, long arg3) {
-					if (CATEGORY[(int) arg3].equals("30일이상 연락 되지않은 사람들")){
-						listView_list.setAdapter(adapter1);
-						flag = 0;
-					}
-					else if (CATEGORY[(int) arg3].equals("15일~30일전에 연락한 사람들")){
-						listView_list.setAdapter(adapter2);
-						flag = 1;
-					}
-					else {
-						listView_list.setAdapter(adapter3);
-						flag = 2;
-					}
+				else if (subTime < 2592000000l && subTime >=1296000000){		//보름이상
+					result2.add(number);
+					result2_day.add(currentDate);
 				}
-					public void onNothingSelected(AdapterView<?> arg0) {
+				else if (subTime < 1296000000){		//최근
+						result3.add(number);
+						result3_day.add(currentDate);
 				}
-			});
-	    }
+				mCursor.moveToNext();
+			}
 	    mCursor.close();
 	    mDatabase.close();
+	    
+	    
+		adapter1 = new SpinnerSortAdapter(spinnerSort.this, R.layout.spinnersorttext, result1, result1_day);
+		adapter2 = new SpinnerSortAdapter(spinnerSort.this, R.layout.spinnersorttext, result2, result2_day);
+		adapter3 = new SpinnerSortAdapter(spinnerSort.this, R.layout.spinnersorttext, result3, result3_day);
+		
+		spinner_select.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+			public void onItemSelected(AdapterView<?> arg0, View arg1,
+					int arg2, long arg3) {
+				if (CATEGORY[(int) arg3].equals("30일이상 연락 되지않은 사람들")){
+					listView_list.setAdapter(adapter1);
+					flag = 0;
+				}
+				else if (CATEGORY[(int) arg3].equals("15일~30일전에 연락한 사람들")){
+					listView_list.setAdapter(adapter2);
+					flag = 1;
+				}
+				else {
+					listView_list.setAdapter(adapter3);
+					flag = 2;
+				}
+			}
+				public void onNothingSelected(AdapterView<?> arg0) {
+			}
+		});
+		
 	    listView_list.setOnItemClickListener(new OnItemClickListener() {
 
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
