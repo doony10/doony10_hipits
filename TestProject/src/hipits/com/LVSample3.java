@@ -42,7 +42,7 @@ public class LVSample3 extends Activity implements OnClickListener {
 
 	private DialogInterface.OnClickListener deleteYesListener;
 	private DialogInterface.OnClickListener deleteNoListener;
-	DBAdapterNameList dba;
+	DBAdapter dba = new DBAdapter(LVSample3.this);
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -77,7 +77,6 @@ public class LVSample3 extends Activity implements OnClickListener {
 				ShowMessageBox(LVSample3.this, message);
 			}
 		});
-		
 	}
 	
 	public void onClick(View view) {
@@ -101,7 +100,7 @@ public class LVSample3 extends Activity implements OnClickListener {
 			/*aataSource(this.dataSources);
 			((LVSample3Adapter) adapter).notifyDataSetChanged();
 			ShowMessageBox(this, String.format("All items count is %d.", dataSources.size()));*/
-			dba = new DBAdapterNameList(LVSample3.this);
+			
 			dba.open();
 			Long[] checkedItems = ((LVSample3Adapter) adapter).getCheckItemIds();
 			if (checkedItems == null || checkedItems.length == 0) {
@@ -112,7 +111,9 @@ public class LVSample3 extends Activity implements OnClickListener {
 				for (int index = 0; index < checkedItems.length; index++) {
 					long pos = checkedItems[index];
 					LVSample3Item item = dataSources.get((int) pos);
-					dba.insertEntry(item.getTitle(), item.getNumber());
+					//dba.insertEntry2(item.getTitle(), item.getNumber());
+					Log.v("text", "title = "+item.getTitle()+ "number = "+item.getNumber());
+					dba.insertEntry2(item.getTitle(), item.getNumber());
 					message += String.format("%d[%s, %s] Ãß°¡\n", pos, item.getTitle(), item.getNumber());
 				}
 				ShowMessageBox(LVSample3.this, message);
@@ -121,9 +122,9 @@ public class LVSample3 extends Activity implements OnClickListener {
 			int id = 0;
 			String name = null;
 			Long[] checkedItems = ((LVSample3Adapter) adapter).getCheckItemIds();
-			dba = new DBAdapterNameList(LVSample3.this);
+			dba = new DBAdapter(LVSample3.this);
 			dba.open();
-			Cursor dbcurosr=dba.getAllEntries();
+			Cursor dbcurosr=dba.getAllEntries2();
 			int indexid = dbcurosr.getColumnIndex("id");
 			int indexname = dbcurosr.getColumnIndex("name");
 			Log.v("dbin", "id="+indexid+" name="+indexname);
@@ -145,7 +146,7 @@ public class LVSample3 extends Activity implements OnClickListener {
 					Log.v("db2", name);
 					Log.v("item", item.getTitle());
 					if (item.getTitle().equals(name)){
-						dba.deleteEntry(id);
+						dba.deleteEntry2(id);
 						Log.v("dbtest", id+name);
 					}					
 				}

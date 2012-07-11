@@ -39,6 +39,7 @@ public class spinnerSort extends Activity {
 	SpinnerSortAdapter adapter2;
 	SpinnerSortAdapter adapter3;
 	int flag;
+	ArrayList nameResult3, numberResult3;
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -101,7 +102,8 @@ public class spinnerSort extends Activity {
 		final ArrayList result1_day = new ArrayList();
 		final ArrayList result2_day = new ArrayList();
 		final ArrayList result3_day = new ArrayList();
-		
+		nameResult3 = new ArrayList();
+		numberResult3 = new ArrayList();
 	    Log.v("ddd", "no4");
 		while (!mCursor.isAfterLast()){
 			number = mCursor.getString(indexnumber);			
@@ -122,6 +124,7 @@ public class spinnerSort extends Activity {
 					result2_day.add(currentDate);
 				}
 				else if (subTime < 1296000000){		//ÃÖ±Ù
+					Log.v("testnumbers", number);
 						result3.add(number);
 						result3_day.add(currentDate);
 				}
@@ -130,10 +133,39 @@ public class spinnerSort extends Activity {
 	    mCursor.close();
 	    mDatabase.close();
 	    
-	    
+    	/*DBAdapter dbe = new DBAdapter(spinnerSort.this);
+    	dbe.open();
+    	Cursor dbCursor = dbe.getAllEntries2();*/
+        SQLiteDatabase dbDatabase=openOrCreateDatabase(
+        		"numbermanager.db", Context.MODE_PRIVATE, null);
+
+		Cursor dbCursor = dbDatabase.rawQuery("SELECT * "+"FROM "+ "namemanager group by number;", null);
+		int inName = dbCursor.getColumnIndex("name");
+		int inNumber = dbCursor.getColumnIndex("number");   
+		
+	    for (int i = 0; i<result3.size();i++){
+	    	String fors = (String) result3.get(i);
+	    	String days = (String) result3_day.get(i);
+	    	Log.v("for",fors+days);
+			dbCursor.moveToFirst();
+			while (!dbCursor.isAfterLast()){
+				String nNumber = dbCursor.getString(inNumber);
+				Log.v("before", fors+"     "+nNumber+"      "+dbCursor.getString(inName));
+				if (fors.equals(nNumber)){
+					nameResult3.add(dbCursor.getString(inName));
+					numberResult3.add(days);
+					Log.v("asdq", "qqq");
+				}
+				dbCursor.moveToNext();
+			}
+	    }
+		dbCursor.close();
+    	dbDatabase.close();
+    	
+    	
 		adapter1 = new SpinnerSortAdapter(spinnerSort.this, R.layout.spinnersorttext, result1, result1_day);
 		adapter2 = new SpinnerSortAdapter(spinnerSort.this, R.layout.spinnersorttext, result2, result2_day);
-		adapter3 = new SpinnerSortAdapter(spinnerSort.this, R.layout.spinnersorttext, result3, result3_day);
+		adapter3 = new SpinnerSortAdapter(spinnerSort.this, R.layout.spinnersorttext, nameResult3, numberResult3);
 		
 		spinner_select.setOnItemSelectedListener(new OnItemSelectedListener() {
 
