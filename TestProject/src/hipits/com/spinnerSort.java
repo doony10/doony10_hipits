@@ -52,7 +52,7 @@ public class spinnerSort extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (item.getItemId()==R.id.nameinsert){
 			Log.v("start", "go");
-			Intent intent = new Intent(spinnerSort.this, LVSample3.class);
+			Intent intent = new Intent(spinnerSort.this, GraphViewActivity.class);
 			Log.v("start", "gogo");
 			startActivity(intent);
 			Log.v("start", "gogogo");
@@ -144,16 +144,16 @@ public class spinnerSort extends Activity {
 		int inNumber = dbCursor.getColumnIndex("number");   
 		
 	    for (int i = 0; i<result3.size();i++){
-	    	String fors = (String) result3.get(i);
-	    	String days = (String) result3_day.get(i);
-	    	Log.v("for",fors+days);
+	    	String fors3 = (String) result3.get(i);
+	    	String days3 = (String) result3_day.get(i);
+	    	Log.v("for",fors3+days3);
 			dbCursor.moveToFirst();
 			while (!dbCursor.isAfterLast()){
 				String nNumber = dbCursor.getString(inNumber);
-				Log.v("before", fors+"     "+nNumber+"      "+dbCursor.getString(inName));
-				if (fors.equals(nNumber)){
+				Log.v("before", fors3+"     "+nNumber+"      "+dbCursor.getString(inName));
+				if (fors3.equals(nNumber)){
 					nameResult3.add(dbCursor.getString(inName));
-					numberResult3.add(days);
+					numberResult3.add(days3);
 					Log.v("asdq", "qqq");
 				}
 				dbCursor.moveToNext();
