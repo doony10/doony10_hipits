@@ -32,8 +32,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class LVSample3 extends Activity implements OnClickListener {
-
-	private Button btnSearch;
 	private Button btnAdd;
 	private Button btnDelete;
 
@@ -56,9 +54,6 @@ public class LVSample3 extends Activity implements OnClickListener {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.numberlist);
-		
-		btnSearch = (Button) findViewById(R.id.btnSearch);
-		btnSearch.setOnClickListener(LVSample3.this);
 
 		btnAdd = (Button) findViewById(R.id.btnAdd);
 		btnAdd.setOnClickListener(LVSample3.this);
@@ -87,27 +82,8 @@ public class LVSample3 extends Activity implements OnClickListener {
 	}
 	
 	public void onClick(View view) {
-		if (view.getId() == R.id.btnSearch) {
-			// long[] checkedItems = this.lv.getCheckItemIds();
-			Long[] checkedItems = ((LVSample3Adapter) adapter).getCheckItemIds();
-			if (checkedItems == null || checkedItems.length == 0) {
-				ShowMessageBox(LVSample3.this, "Selected Items is Nothing.");
-				return;
-			}
-
-			String message = "";
-			for (int index = 0; index < checkedItems.length; index++) {
-				long pos = checkedItems[index];
-				LVSample3Item item = dataSources.get((int) pos);
-				message += String.format("%d[%s, %s]\n", pos, item.getTitle(), item.getNumber());
-			}
-			ShowMessageBox(LVSample3.this, message);
-		} 
-			else if (view.getId() == R.id.btnAdd) {
-			/*aataSource(this.dataSources);
-			((LVSample3Adapter) adapter).notifyDataSetChanged();
-			ShowMessageBox(this, String.format("All items count is %d.", dataSources.size()));*/
-			
+			if (view.getId() == R.id.btnAdd) {
+				
 			dba.open();
 			Long[] checkedItems = ((LVSample3Adapter) adapter).getCheckItemIds();
 			if (checkedItems == null || checkedItems.length == 0) {

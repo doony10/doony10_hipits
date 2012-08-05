@@ -27,7 +27,7 @@ public class NumberInfo extends Activity {
 	TextView text_name, text_number, text_date, text_massage;
 	LinearLayout graph;
 	Date date;
-	String currentDate, message, month;
+	String currentDate, message, month, numbers;
 	long ydate;
 	ArrayList<Integer> aNumberList, defaultDate,numbers2;
 	int i=0, dateNumber;
@@ -44,16 +44,21 @@ public class NumberInfo extends Activity {
 		
 		 Log.v("errorNO", "0");
 		 Intent intent = getIntent();
-		 String number = intent.getStringExtra("number").trim();		
-		 text_name.setText(intent.getStringExtra("name"));
+			if( intent.getStringExtra("number").trim().length() >8){
+				numbers = intent.getStringExtra("number").trim().substring(3);
+			}
+			else{
+				 numbers = intent.getStringExtra("number").trim();	
+			}
+		text_name.setText(intent.getStringExtra("name"));
 		text_number.setText(intent.getStringExtra("number"));
-		text_date.setText(intent.getStringExtra("date"));
-		
+		text_date.setText(intent.getStringExtra("date"));		
+
 		SQLiteDatabase mDatabase=openOrCreateDatabase(
         		"numbermanager.db", Context.MODE_PRIVATE, null);
         Log.v("errorNO", "2");
-		Cursor mCursor = mDatabase.rawQuery("SELECT * "+"FROM "+ "manager where number="+number+";", null);
-		Log.v("errorNO", "3");
+		Cursor mCursor = mDatabase.rawQuery("SELECT * "+"FROM "+ "manager where number="+numbers+";", null);
+		Log.v("errorNO", "3"+numbers);
 		int indexdate = mCursor.getColumnIndex("time");
 		int indexmessage = mCursor.getColumnIndex("message");
 		Log.v("errorNO", "4");
@@ -80,11 +85,11 @@ public class NumberInfo extends Activity {
 				monthInt = Integer.parseInt(MonthString);
 				Log.v("month", MonthString);
 				SimpleDateFormat currentDateFormat = new SimpleDateFormat("dd");
-				if(this.currentMonth == monthInt){
+//				if(this.currentMonth == monthInt){
 					currentDate = currentDateFormat.format(saveDate);
 					aNumberList.add(Integer.parseInt(currentDate));
 					Log.v("test", "no????");
-				}
+//				}
 				message = mCursor.getString(indexmessage);
 				text_massage.setText(message);
 			mCursor.moveToNext();

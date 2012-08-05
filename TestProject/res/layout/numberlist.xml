@@ -6,15 +6,11 @@
 	<LinearLayout android:orientation="horizontal"
 		android:layout_width="fill_parent" android:layout_height="wrap_content">
 
-		<Button android:text="Search" android:id="@+id/btnSearch"
+		<Button android:text="선택한 명단 추가" android:id="@+id/btnAdd"
 			android:layout_width="fill_parent" android:layout_height="wrap_content"
 			android:layout_weight="1">></Button>
 
-		<Button android:text="Add" android:id="@+id/btnAdd"
-			android:layout_width="fill_parent" android:layout_height="wrap_content"
-			android:layout_weight="1">></Button>
-
-		<Button android:text="Delete" android:id="@+id/btnDelete"
+		<Button android:text="선택한 명단 삭제" android:id="@+id/btnDelete"
 			android:layout_width="fill_parent" android:layout_height="wrap_content"
 			android:layout_weight="1">></Button>
 	</LinearLayout>

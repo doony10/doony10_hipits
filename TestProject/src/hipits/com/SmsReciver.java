@@ -33,7 +33,15 @@ Log.d("MY_TAG", "BroadcastReceiver onReceive()");
 				SmsMessage[] messages = new SmsMessage[pdusObjects.length];
 				for (int i =0; i < pdusObjects.length; i++){
 					messages[i]=SmsMessage.createFromPdu((byte[]) pdusObjects[i]);
-					number=messages[i].getDisplayOriginatingAddress();
+					//number=messages[i].getDisplayOriginatingAddress();
+					if(messages[i].getOriginatingAddress().length()>8){
+						number = messages[i].getOriginatingAddress().substring(3);
+						Log.v("start", number);
+					}
+					else{
+						number = messages[i].getOriginatingAddress();
+						Log.v("start2", number);
+					}
 					message=messages[i].getMessageBody();
 				}
 
@@ -50,7 +58,7 @@ Log.d("MY_TAG", "BroadcastReceiver onReceive()");
 				for (SmsMessage currentMessage:messages){
 					stringBuilder.append("문자메세지가 수신되었습니다\n");
 					stringBuilder.append("[발신자 전화 번호]\n");
-					stringBuilder.append(currentMessage.getOriginatingAddress());
+					stringBuilder.append(currentMessage.getOriginatingAddress().substring(3));
 					stringBuilder.append("\n[수신 메세지]\n");
 					stringBuilder.append(currentMessage.getMessageBody());
 					stringBuilder.append("\n"+currentDate);
