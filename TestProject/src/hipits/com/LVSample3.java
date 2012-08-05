@@ -83,7 +83,6 @@ public class LVSample3 extends Activity implements OnClickListener {
 	
 	public void onClick(View view) {
 			if (view.getId() == R.id.btnAdd) {
-				
 			dba.open();
 			Long[] checkedItems = ((LVSample3Adapter) adapter).getCheckItemIds();
 			if (checkedItems == null || checkedItems.length == 0) {
@@ -97,7 +96,9 @@ public class LVSample3 extends Activity implements OnClickListener {
 					//dba.insertEntry2(item.getTitle(), item.getNumber());
 					Log.v("text", "title = "+item.getTitle()+ "number = "+item.getNumber());
 					dba.insertEntry2(item.getTitle(), item.getNumber());
+					message += String.format("%d[%s, %s] Ãß°¡\n", pos, item.getTitle(), item.getNumber());
 				}
+				ShowMessageBox(LVSample3.this, message);
 				dba.close();
 		} else if (view.getId() == R.id.btnDelete) {
 			int id = 0;
