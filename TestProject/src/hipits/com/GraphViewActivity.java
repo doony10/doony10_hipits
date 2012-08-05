@@ -34,7 +34,7 @@ public class GraphViewActivity extends Activity {
         SQLiteDatabase mDatabase=openOrCreateDatabase(
         		"numbermanager.db", Context.MODE_PRIVATE, null);
         Log.v("errorNO", "2");
-		Cursor mCursor = mDatabase.rawQuery("SELECT * "+"FROM "+ "manager where number=2412877;", null);
+		Cursor mCursor = mDatabase.rawQuery("SELECT * "+"FROM "+ "manager where number=4132173;", null);
 		Log.v("errorNO", "3");
 		int indexdate = mCursor.getColumnIndex("time");
 		Log.v("errorNO", "4");
@@ -85,6 +85,8 @@ public class GraphViewActivity extends Activity {
         Log.v("eee", "¾Æ³ö3");
         graph1.addView(graphView); 
         graphView = new BarGraphView(GraphViewActivity.this, "BarGraph");
+        graphView.setViewPort(1, 11);
+        graphView.setScrollable(true);
         graphView.addSeries(new GraphViewSeries(data));
         graph2.addView(graphView);
     }

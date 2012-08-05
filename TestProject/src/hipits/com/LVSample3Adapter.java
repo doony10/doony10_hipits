@@ -72,11 +72,8 @@ public class LVSample3Adapter extends BaseAdapter {
 		public void onClick(View v) {
 			if (v instanceof CheckBox) {
 				CheckBox chk = (CheckBox) v;
-				Log.v("doony10", "doony10");
-				// switch (chk.getId()) {
-				// }
+				
 				notifyDataSetChanged();
-				// notifyDataSetInvalidated();
 			}
 		}
 	};

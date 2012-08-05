@@ -17,37 +17,29 @@ public class CheckableRelativeLayout extends RelativeLayout implements Checkable
 	public CheckableRelativeLayout(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		checkableId = attrs.getAttributeResourceValue(NS, ATTR, 0);
-		Log.v("checkable", "1");
 	}
 
 	public boolean isChecked() {
 		checkable = (Checkable) findViewById(checkableId);
 		if (checkable == null){
-			Log.v("checkable", "2");
 			return false;
 		}
-		Log.v("checkable", "2.5");
 		return checkable.isChecked();
 	}
 
 	public void setChecked(boolean checked) {
 		checkable = (Checkable) findViewById(checkableId);
 		if (checkable == null){
-			Log.v("checkable", "3");			
 			return;
 		}
-		Log.v("checkable", "3.5");
 		checkable.setChecked(checked);
-		Log.v("checkable", "3.8");
 	}
 
 	public void toggle() {
 		checkable = (Checkable) findViewById(checkableId);
 		if (checkable == null){
-			Log.v("checkable", "4");
 			return;
 		}
-		Log.v("checkable", "4.5");
 		checkable.toggle();
 	}
 }
