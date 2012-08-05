@@ -1,10 +1,12 @@
 package hipits.com;
 
+
 import java.io.ObjectOutputStream.PutField;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
+import hipits.com.R;
 import com.jjoe64.graphview.BarGraphView;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.LineGraphView;
@@ -25,10 +27,11 @@ public class NumberInfo extends Activity {
 	TextView text_name, text_number, text_date, text_massage;
 	LinearLayout graph;
 	Date date;
-	String currentDate, message="없습니다.";
+	String currentDate, message, month;
 	long ydate;
 	ArrayList<Integer> aNumberList, defaultDate,numbers2;
 	int i=0, dateNumber;
+	int currentMonth, monthInt;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -59,13 +62,29 @@ public class NumberInfo extends Activity {
 		defaultDate = new ArrayList<Integer>();
 		numbers2 = new ArrayList<Integer>();
 		
+		long currentMonth  =System.currentTimeMillis(); //현재 시간을 msec로 구한다.
+		Date dateMonth = new Date(currentMonth);//현재 시간을 저장한다
+		//시간 포멧으로 만든다.
+		SimpleDateFormat currentMonthFormat = new SimpleDateFormat("MM");
+		String currentMonthString = currentMonthFormat.format(dateMonth);
+		month = currentMonthString.trim();
+		this.currentMonth = Integer.parseInt(month);
+		Log.v("currentMonth", month);
 		while (!mCursor.isAfterLast()){
 				ydate = mCursor.getLong(indexdate);
-				Date date = new Date(ydate);//현재 시간을 저장한다
+				Date saveDate = new Date(ydate);//저장된 시간을 저장한다
+				
 				//시간 포멧으로 만든다.
+				//SimpleDateFormat monthFormat = new SimpleDateFormat("MM");
+				String MonthString = currentMonthFormat.format(saveDate);
+				monthInt = Integer.parseInt(MonthString);
+				Log.v("month", MonthString);
 				SimpleDateFormat currentDateFormat = new SimpleDateFormat("dd");
-				currentDate = currentDateFormat.format(date);
-				aNumberList.add(Integer.parseInt(currentDate));
+				if(this.currentMonth == monthInt){
+					currentDate = currentDateFormat.format(saveDate);
+					aNumberList.add(Integer.parseInt(currentDate));
+					Log.v("test", "no????");
+				}
 				message = mCursor.getString(indexmessage);
 				text_massage.setText(message);
 			mCursor.moveToNext();
@@ -94,7 +113,7 @@ public class NumberInfo extends Activity {
         GraphView graphView;
         graph = (LinearLayout) findViewById(R.id.graph);
         
-        graphView = new BarGraphView(NumberInfo.this, "BarGraph");
+        graphView = new BarGraphView(NumberInfo.this, month+"월");
         graphView.setViewPort(1, 30);
         graphView.setScrollable(true);
         graphView.addSeries(new GraphViewSeries(data));
