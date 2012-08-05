@@ -12,6 +12,7 @@ import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.LineGraphView;
 import com.jjoe64.graphview.GraphView.GraphViewData;
 import com.jjoe64.graphview.GraphView.GraphViewSeries;
+import com.jjoe64.graphview.GraphView.LegendAlign;
 
 import android.app.Activity;
 import android.content.Context;
