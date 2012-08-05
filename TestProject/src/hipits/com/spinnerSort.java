@@ -57,7 +57,7 @@ public class spinnerSort extends Activity {
 			Intent intent = new Intent(spinnerSort.this, LVSample3.class);
 			Log.v("start", "gogo");
 			startActivity(intent);
-			Log.v("start", "gogogo");
+			finish();
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -75,7 +75,6 @@ public class spinnerSort extends Activity {
 	    		  finish();
 	    	  }
 	    	  }).setNegativeButton(buttonNo, null).show();
-			//super.onBackPressed();
 		}		    
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

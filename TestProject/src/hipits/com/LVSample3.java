@@ -9,6 +9,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -45,11 +46,17 @@ public class LVSample3 extends Activity implements OnClickListener {
 	DBAdapter dba = new DBAdapter(LVSample3.this);
 	
 	@Override
+	public void onBackPressed() {
+		Intent intent = new Intent(LVSample3.this, spinnerSort.class);
+		startActivity(intent);
+		finish();
+	}
+	
+	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.numberlist);
 		
-		// For Buttons
 		btnSearch = (Button) findViewById(R.id.btnSearch);
 		btnSearch.setOnClickListener(LVSample3.this);
 
