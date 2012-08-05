@@ -37,6 +37,7 @@ public class DBAdapter {
 		//데이터베이스를 생성한다.
 		mDbHelper = new DatabaseHelper(context, DATABASE_NAME, null, DATABASE_VERSION);
 	}
+	
 	//헬퍼 클래스:테이블 생성 및 업그레이드
 	class DatabaseHelper extends SQLiteOpenHelper{
 

@@ -58,7 +58,7 @@ Log.d("MY_TAG", "BroadcastReceiver onReceive()");
 				for (SmsMessage currentMessage:messages){
 					stringBuilder.append("문자메세지가 수신되었습니다\n");
 					stringBuilder.append("[발신자 전화 번호]\n");
-					stringBuilder.append(currentMessage.getOriginatingAddress().substring(3));
+					stringBuilder.append(currentMessage.getOriginatingAddress());
 					stringBuilder.append("\n[수신 메세지]\n");
 					stringBuilder.append(currentMessage.getMessageBody());
 					stringBuilder.append("\n"+currentDate);

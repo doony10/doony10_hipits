@@ -7,6 +7,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.telephony.PhoneStateListener;
+import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
@@ -40,6 +43,10 @@ public class ProjectTestActivity extends Activity {
         setContentView(R.layout.main);
 		DBAdapter db = new DBAdapter(getApplicationContext());
 		db.open();
+        MyPhoneStateListener phoneListener=new MyPhoneStateListener(this); 
+        TelephonyManager telephonyManager  =(TelephonyManager)getSystemService(TELEPHONY_SERVICE); 
+        telephonyManager.listen(phoneListener,PhoneStateListener.LISTEN_CALL_STATE);
+		
 		layout = (LinearLayout) findViewById(R.id.layout);
 		layout.setOnTouchListener(new OnTouchListener() {
 			
