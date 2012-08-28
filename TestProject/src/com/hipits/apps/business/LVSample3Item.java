@@ -1,4 +1,4 @@
-package hipits.com;
+package com.hipits.apps.business;
 
 import java.io.Serializable;
 
@@ -9,6 +9,15 @@ public class LVSample3Item implements Serializable {
 	private long Id = 0;
 	private String name;
 	private String number;
+	private boolean check;
+
+	public boolean isCheck() {
+		return check;
+	}
+
+	public void setCheck(boolean check) {
+		this.check = check;
+	}
 
 	public LVSample3Item(String name, String number) {
 		Id = index++;

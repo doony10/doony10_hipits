@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<hipits.com.CheckableRelativeLayout
+<com.hipits.apps.business.CheckableRelativeLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:nalsil="http://schemas.android.com/apk/res/hipits.com"
+	xmlns:nalsil="http://schemas.android.com/apk/res/com.hipits.apps.business"
 	android:orientation="horizontal" android:layout_width="fill_parent"
 	android:layout_height="fill_parent" nalsil:checkable="@+id/check"
 	android:id="@+id/checkliner">
@@ -25,4 +25,4 @@
 		android:layout_height="wrap_content" android:layout_toRightOf="@id/img"
 		android:layout_below="@id/title" android:layout_alignParentBottom="true"
 		android:text="This is my list item layout" android:focusable="false" />
-</hipits.com.CheckableRelativeLayout>
+</com.hipits.apps.business.CheckableRelativeLayout>

@@ -1,10 +1,13 @@
-package hipits.com;
+package com.hipits.apps.business;
 
-import hipits.com.LVSample3Adapter.ViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hipits.apps.business.R;
+import com.hipits.apps.business.LVSample3Adapter.ViewHolder;
+
+import android.R.bool;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -38,6 +41,7 @@ public class LVSample3 extends Activity implements OnClickListener {
 	private ListView lv;
 	private List<LVSample3Item> dataSources;
 	private ListAdapter adapter;
+	ArrayList<Boolean> chek;
 
 	private DialogInterface.OnClickListener deleteYesListener;
 	private DialogInterface.OnClickListener deleteNoListener;
@@ -70,12 +74,14 @@ public class LVSample3 extends Activity implements OnClickListener {
 		LVSample3.this.lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 		// lv.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 
+		chek = new ArrayList<Boolean>();
 		LVSample3.this.lv.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> adapt, View view, int position, long id) {
 				// TODO Auto-generated method stub
 				TextView tvTitle = (TextView) view.findViewById(R.id.title);
 				TextView tvSummary = (TextView) view.findViewById(R.id.summary);
 				String message = "Title: " + tvTitle.getText() + "\n" + "Summary:" + tvSummary.getText();
+				
 				ShowMessageBox(LVSample3.this, message);
 			}
 		});
@@ -93,7 +99,7 @@ public class LVSample3 extends Activity implements OnClickListener {
 				for (int index = 0; index < checkedItems.length; index++) {
 					long pos = checkedItems[index];
 					LVSample3Item item = dataSources.get((int) pos);
-					//dba.insertEntry2(item.getTitle(), item.getNumber());
+					//dba.insertEntry2(i tem.getTitle(), item.getNumber());
 					Log.v("text", "title = "+item.getTitle()+ "number = "+item.getNumber());
 					dba.insertEntry2(item.getTitle(), item.getNumber());
 					message += String.format("%d[%s, %s] Ãß°¡\n", pos, item.getTitle(), item.getNumber());

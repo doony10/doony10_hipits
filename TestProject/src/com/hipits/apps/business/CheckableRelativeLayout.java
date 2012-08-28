@@ -1,4 +1,4 @@
-package hipits.com;
+package com.hipits.apps.business;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -8,7 +8,7 @@ import android.widget.Checkable;
 import android.widget.RelativeLayout;
 
 public class CheckableRelativeLayout extends RelativeLayout implements Checkable {
-	final String NS = "http://schemas.android.com/apk/res/hipits.com";
+	final String NS = "http://schemas.android.com/apk/res/com.hipits.apps.business";
 	final String ATTR = "checkable";
 
 	int checkableId;

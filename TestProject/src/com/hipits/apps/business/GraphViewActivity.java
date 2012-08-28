@@ -1,4 +1,5 @@
-package hipits.com;
+package com.hipits.apps.business;
+
 
 import java.sql.Date;
 import java.text.SimpleDateFormat;
@@ -12,6 +13,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.LinearLayout;
 
+import com.hipits.apps.business.R;
 import com.jjoe64.graphview.BarGraphView;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GraphView.GraphViewData;

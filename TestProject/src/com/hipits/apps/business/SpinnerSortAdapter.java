@@ -1,6 +1,10 @@
-package hipits.com;
+package com.hipits.apps.business;
+
 
 import java.util.ArrayList;
+
+import com.hipits.apps.business.R;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,7 +47,6 @@ public class SpinnerSortAdapter extends BaseAdapter {
 			TextView numbertext = (TextView) convertView.findViewById(R.id.spinnersort_text2);
 			nametetext.setText(namelist.get(position).toString());
 			numbertext.setText(numberlist.get(position).toString());
-			//imageView1.setImageBitmap(BitmapFactory.decodeStream(new URL(list.get(pos).imageURL).openStream()));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

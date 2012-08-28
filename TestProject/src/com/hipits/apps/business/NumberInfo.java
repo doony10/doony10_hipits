@@ -1,4 +1,4 @@
-package hipits.com;
+package com.hipits.apps.business;
 
 
 import java.io.ObjectOutputStream.PutField;
@@ -6,7 +6,7 @@ import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
-import hipits.com.R;
+import com.hipits.apps.business.R;
 import com.jjoe64.graphview.BarGraphView;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.LineGraphView;

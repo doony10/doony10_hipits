@@ -1,4 +1,5 @@
-package hipits.com;
+package com.hipits.apps.business;
+
 
 import java.io.ObjectOutputStream.PutField;
 import java.sql.Date;
@@ -7,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.xml.sax.Parser;
+
+import com.hipits.apps.business.R;
 
 import android.app.Activity;
 import android.app.AlertDialog;

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="hipits.com"
+    package="com.hipits.apps.business"
     android:versionCode="1"
     android:versionName="1.0" >
 
@@ -22,7 +22,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <receiver android:name=".SmsReciver">
+        <receiver android:name="com.hipits.apps.business.SmsReciver">
             <intent-filter >
                 <action android:name="android.provider.Telephony.SMS_RECEIVED"/>
             </intent-filter>
@@ -30,7 +30,7 @@
         <activity android:name="GraphViewActivity"></activity>
         <activity android:name="spinnerSort"></activity>
         <activity android:name="LVSample3"></activity>
-        <activity android:name="NumberInfo"></activity>
+        <activity android:name="com.hipits.apps.business.NumberInfo"></activity>
     </application>
 
 </manifest>

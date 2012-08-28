@@ -1,4 +1,4 @@
-package hipits.com;
+package com.hipits.apps.business;
 
 import java.sql.Date;
 import java.text.SimpleDateFormat;

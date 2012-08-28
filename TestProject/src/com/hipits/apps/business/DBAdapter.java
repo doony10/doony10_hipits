@@ -1,4 +1,4 @@
-package hipits.com;
+package com.hipits.apps.business;
 
 import android.content.ContentValues;
 import android.content.Context;
