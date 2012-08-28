@@ -98,7 +98,7 @@ public class NumberInfo extends Activity {
 
         Log.v("eee", "¾Æ³ö1");
         
-        for(int i = 0; i<31; i++){
+        for(int i = 0; i<32; i++){
         	defaultDate.add(i+1);
         }
         
@@ -120,7 +120,7 @@ public class NumberInfo extends Activity {
         graph = (LinearLayout) findViewById(R.id.graph);
         
         graphView = new BarGraphView(NumberInfo.this, month+"¿ù");
-        graphView.setViewPort(1, 30);
+        graphView.setViewPort(0, 31);
         graphView.setScrollable(true);
         graphView.addSeries(new GraphViewSeries(data));
         graph.addView(graphView);

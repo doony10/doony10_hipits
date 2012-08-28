@@ -22,7 +22,7 @@ public class DBAdapter {
 	private static final String DATABASE_TABLE_CREATE =
 			"CREATE TABLE " + DATABASE_TABLE + "(id INTEGER PRIMARY KEY AUTOINCREMENT, "+ "number TEXT NOT NULL, " + "time LONG NOT NULL,"+"message TEXT NOT NULL);";
 	private static final String DATABASE_TABLE_CREATE2 =
-			"CREATE TABLE " + DATABASE_TABLE2 + "(id INTEGER PRIMARY KEY AUTOINCREMENT, "+ "name TEXT NOT NULL, "+"number TEXT NOT NULL);";
+			"CREATE TABLE " + DATABASE_TABLE2 + "(id INTEGER PRIMARY KEY,"+ "name TEXT NOT NULL,"+"number TEXT NOT NULL);";
 	
 	private static final String DATABASE_TABLE_DROP = "DROP TABLE IF EXISTS "+ DATABASE_TABLE;
 	private static final String DATABASE_TABLE_DROP2 = "DROP TABLE IF EXISTS "+ DATABASE_TABLE2;
@@ -83,8 +83,9 @@ public class DBAdapter {
 		return mDb.insert(DATABASE_TABLE, null, values);
 	}
 	
-	public long insertEntry2(String name, String number){
+	public long insertEntry2 (int position, String name, String number){
 		ContentValues values = new ContentValues();
+		values.put("id", position);
 		values.put("name", name);
 		values.put("number", number);
 		return mDb.insert(DATABASE_TABLE2, null, values);
@@ -126,11 +127,11 @@ public class DBAdapter {
 	}
 	
 	public Cursor getAllEntries2(){
-		return mDb.query(DATABASE_TABLE2, new String[]{"id", "name", "number"}, null, null, null, null, null,null);
+		return mDb.query(DATABASE_TABLE2, new String[]{"id", "name","number"}, null, null, null, null, null,null);
 	}
 	
 	public Cursor getEntry2(long rowID) throws SQLException{
-		Cursor mCursor = mDb.query(DATABASE_TABLE2, new String[]{"id", "name", "number"}, "id="+rowID, null, null, null, null,null);
+		Cursor mCursor = mDb.query(DATABASE_TABLE2, new String[]{"id", "name","number"}, "id="+rowID, null, null, null, null,null);
 		if (mCursor != null) mCursor.moveToFirst();
 		return mCursor;
 		

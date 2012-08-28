@@ -57,7 +57,7 @@ public class spinnerSort extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (item.getItemId()==R.id.nameinsert){
 			Log.v("start", "go");
-			Intent intent = new Intent(spinnerSort.this, LVSample3.class);
+			Intent intent = new Intent(spinnerSort.this, NameInsert.class);
 			Log.v("start", "gogo");
 			startActivity(intent);
 			finish();
@@ -159,10 +159,13 @@ public class spinnerSort extends Activity {
 	    for (int i = 0; i<result3.size();i++){
 	    	String fors3 = (String) result3.get(i);
 	    	String days3 = (String) result3_day.get(i);
+	    	Log.v("fors3s", fors3);
 			dbCursor.moveToFirst();
 			while (!dbCursor.isAfterLast()){
 				String nNumber = dbCursor.getString(inNumber);
+				Log.v("fors3s", nNumber);
 				if (fors3.equals(nNumber)){
+					Log.v("nametest", dbCursor.getString(inName));
 					nameResult3.add(dbCursor.getString(inName));
 					nameNumbers3.add((String) result3.get(i));
 					numberResult3.add(days3);
@@ -177,6 +180,7 @@ public class spinnerSort extends Activity {
 			while (!dbCursor.isAfterLast()){
 				String nNumber = dbCursor.getString(inNumber);
 				if (fors1.equals(nNumber)){
+					Log.v("nametest", dbCursor.getString(inName));
 					nameResult1.add(dbCursor.getString(inName));
 					nameNumbers1.add((String) result1.get(i));
 					numberResult1.add(days1);
@@ -189,6 +193,7 @@ public class spinnerSort extends Activity {
 	    	String days2 = (String) result2_day.get(i);
 			dbCursor.moveToFirst();
 			while (!dbCursor.isAfterLast()){
+				Log.v("nametest", dbCursor.getString(inName));
 				String nNumber = dbCursor.getString(inNumber);
 				if (fors2.equals(nNumber)){
 					nameResult2.add(dbCursor.getString(inName));

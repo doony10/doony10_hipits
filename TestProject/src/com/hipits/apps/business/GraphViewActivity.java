@@ -39,7 +39,6 @@ public class GraphViewActivity extends Activity {
 		Cursor mCursor = mDatabase.rawQuery("SELECT * "+"FROM "+ "manager where number=4132173;", null);
 		Log.v("errorNO", "3");
 		int indexdate = mCursor.getColumnIndex("time");
-		Log.v("errorNO", "4");
 		mCursor.moveToFirst();
 		aNumberList = new ArrayList<Integer>();
 		defaultDate = new ArrayList<Integer>();
