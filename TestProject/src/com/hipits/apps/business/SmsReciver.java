@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.telephony.SmsMessage;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -16,17 +17,17 @@ public class SmsReciver extends BroadcastReceiver {
 	String str="";
 	String number="";
 	String message="";
+	static String comingNumber="";
 	@Override
 	public void onReceive(Context context, Intent intent) {
 Log.d("MY_TAG", "BroadcastReceiver onReceive()");
+Bundle bundle = intent.getExtras();
 		if(intent.getAction().equals("android.provider.Telephony.SEND_SMS")){
 			Toast.makeText(context, "문자 보냈숑", Toast.LENGTH_LONG).show();
 			Log.v("문자 테스트", "문자보내짐");
 		}
 		if (intent.getAction().equals("android.provider.Telephony.SMS_RECEIVED")){
 			StringBuilder stringBuilder=new StringBuilder();
-			Bundle bundle = intent.getExtras();
-			
 			if(bundle != null){
 				Object[] pdusObjects=(Object[]) bundle.get("pdus");
 				
@@ -66,5 +67,31 @@ Log.d("MY_TAG", "BroadcastReceiver onReceive()");
 			}
 			Toast.makeText(context, stringBuilder.toString(), Toast.LENGTH_LONG).show();
 		}
-	}
+		else if(intent.getAction().equals("android.intent.action.PHONE_STATE")){
+			String state = bundle.getString(TelephonyManager.EXTRA_STATE);
+			if(state.equals(TelephonyManager.EXTRA_STATE_IDLE)){
+                     Log.d("I", " EXTRA_STATE_IDLE ");                     
+             }
+			else if(state.equals(TelephonyManager.EXTRA_STATE_RINGING)){
+				Log.d("ringing", " EXTRA_STATE_RINGING INCOMMING NUMBER : " + bundle.getString(TelephonyManager.EXTRA_INCOMING_NUMBER)); 
+				//String coming;
+                if(bundle.getString(TelephonyManager.EXTRA_INCOMING_NUMBER).length()>8){
+                	comingNumber = bundle.getString(TelephonyManager.EXTRA_INCOMING_NUMBER).substring(3);
+				}
+				else{
+					comingNumber = bundle.getString(TelephonyManager.EXTRA_INCOMING_NUMBER);
+				}
+				Log.v("comingNumber", comingNumber);				
+			}
+			else if(state.equals(TelephonyManager.EXTRA_STATE_OFFHOOK)){
+				Log.d("offhook", " EXTRA_STATE_OFFHOOK ");
+				DBAdapter db = new DBAdapter((context));
+				long currentTime  =System.currentTimeMillis(); //현재 시간을 msec로 구한다.
+	            
+	    		db.open();
+	    		db.insertEntry(comingNumber, currentTime, "call");
+	    		db.close();
+			}
+           }
+		}
 }

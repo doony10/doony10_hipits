@@ -46,9 +46,6 @@ public class ProjectTestActivity extends Activity {
         setContentView(R.layout.main);
 		DBAdapter db = new DBAdapter(getApplicationContext());
 		db.open();
-        MyPhoneStateListener phoneListener=new MyPhoneStateListener(this); 
-        TelephonyManager telephonyManager  =(TelephonyManager)getSystemService(TELEPHONY_SERVICE); 
-        telephonyManager.listen(phoneListener,PhoneStateListener.LISTEN_CALL_STATE);
 		
         final Handler mHandler = new Handler();
         mHandler.postDelayed(new Runnable() {
