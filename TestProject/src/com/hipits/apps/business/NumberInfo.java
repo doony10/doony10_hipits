@@ -6,19 +6,22 @@ import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
+import org.achartengine.ChartFactory;
+import org.achartengine.GraphicalView;
+import org.achartengine.model.CategorySeries;
+import org.achartengine.model.XYMultipleSeriesDataset;
+import org.achartengine.renderer.SimpleSeriesRenderer;
+import org.achartengine.renderer.XYMultipleSeriesRenderer;
+
 import com.hipits.apps.business.R;
-import com.jjoe64.graphview.BarGraphView;
-import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.LineGraphView;
-import com.jjoe64.graphview.GraphView.GraphViewData;
-import com.jjoe64.graphview.GraphView.GraphViewSeries;
-import com.jjoe64.graphview.GraphView.LegendAlign;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
+import android.graphics.Paint.Align;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.LinearLayout;
@@ -98,7 +101,7 @@ public class NumberInfo extends Activity {
 
         Log.v("eee", "아놔1");
         
-        for(int i = 0; i<32; i++){
+        for(int i = 0; i<31; i++){
         	defaultDate.add(i+1);
         }
         
@@ -110,19 +113,74 @@ public class NumberInfo extends Activity {
 				} 
 			}
 			numbers2.add(k);
-		}
-		GraphViewData[] data = new GraphViewData[defaultDate.size()];
-		
-		for (int i=0; i<defaultDate.size(); i++) {
-			data[i] = new GraphViewData(defaultDate.get(i), numbers2.get(i));
-		}
-        GraphView graphView;
-        graph = (LinearLayout) findViewById(R.id.graph);
+		}        
+        ArrayList<double[]> values = new ArrayList<double[]>();
+        double[] ddo = new double[31];
+        for(int i = 0; i<31;i++){
+        	ddo[i]=numbers2.get(i);
+        }
+        values.add(ddo);
+       //그래프 출력을 위한 그래픽 속성 지정 객체
+        XYMultipleSeriesRenderer renderer = new XYMultipleSeriesRenderer();
+		String currentMouth = currentMonthFormat.format(dateMonth);
+      //상단 표시 제목과 글자 크기
+        renderer.setChartTitle(currentMouth+"월 연락횟수 통계");
+        renderer.setChartTitleTextSize(40);
+        //분류에 대한 이름
+        String[] titles = new String[] {"일수별 연락횟수"};
+        //항목을 표시하는데 사용될 색상값
+        int[] colors = new int[] {Color.YELLOW};
+        //분류명 글자 크기 및 각 색상 지정
+        renderer.setLegendTextSize(15);
+        int length = colors.length;
+        for (int i =0; i<length; i++){
+        	SimpleSeriesRenderer r = new SimpleSeriesRenderer();
+        	r.setColor(colors[i]);
+        	renderer.addSeriesRenderer(r);
+        }
+        //X,Y축 항목이름과 글자 크기
+        renderer.setXTitle("일");
+        renderer.setYTitle("연락횟수");
+        renderer.setAxisTitleTextSize(20);
         
-        graphView = new BarGraphView(NumberInfo.this, month+"월");
-        graphView.setViewPort(0, 31);
-        graphView.setScrollable(true);
-        graphView.addSeries(new GraphViewSeries(data));
-        graph.addView(graphView);
+        //수치값 글자 크기 / x축 최소,최대값/ y축 최소,최대값
+        renderer.setLabelsTextSize(15);
+        renderer.setXAxisMin(0.5);
+        renderer.setXAxisMax(31.5);
+        renderer.setYAxisMin(0);
+        renderer.setYAxisMax(5);
+        
+        //X,Y축 라인 색상
+        renderer.setAxesColor(Color.WHITE);
+        
+        //상단제목, X,Y축 제목, 수치값의 글자 색상
+        renderer.setLabelsColor(Color.CYAN);
+        //X,Y축 정렬 방향
+        renderer.setXLabelsAlign(Align.LEFT);
+        renderer.setYLabelsAlign(Align.LEFT);
+        
+        //X,Y축 스크롤 여부 ON/OFF
+        renderer.setPanEnabled(false, false);
+        //ZOOM기능 ON/OFF
+        renderer.setZoomEnabled(false, false);
+        //ZOOM비율
+        renderer.setZoomRate(1.0f);
+        //막대간 간격
+        renderer.setBarSpacing(0.5f);
+        
+        XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
+        for (int i = 0; i< titles.length;i++){
+        	CategorySeries series = new CategorySeries(titles[i]);
+        	double[] v = values.get(i);
+        	int seriesLength = v.length;
+        	for (int k = 0; k<seriesLength;k++){
+        		series.add(v[k]);
+        	}
+        	dataset.addSeries(series.toXYSeries());
+        }
+        
+        GraphicalView gv = ChartFactory.getBarChartView(this, dataset, renderer, org.achartengine.chart.BarChart.Type.STACKED);
+        LinearLayout llBody = (LinearLayout) findViewById(R.id.graph);
+        llBody.addView(gv);
 	}
 }

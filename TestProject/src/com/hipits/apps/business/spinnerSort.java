@@ -45,6 +45,7 @@ public class spinnerSort extends Activity {
 	ArrayList nameResult1, numberResult1, nameNumbers1;
 	ArrayList nameResult2, numberResult2, nameNumbers2;
 	ArrayList nameResult3, numberResult3, nameNumbers3;
+	Bundle saveBundle;
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -60,7 +61,7 @@ public class spinnerSort extends Activity {
 			Intent intent = new Intent(spinnerSort.this, NameInsert.class);
 			Log.v("start", "gogo");
 			startActivity(intent);
-			finish();
+//			finish();
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -84,7 +85,7 @@ public class spinnerSort extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.spinnersort);
 		
-		
+		saveBundle = savedInstanceState;
 		spinner_select = (Spinner) findViewById(R.id.spinner_select);
 		listView_list = (ListView) findViewById(R.id.listView_list);
 		ArrayAdapter<String> spinner_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, CATEGORY);
@@ -263,5 +264,10 @@ public class spinnerSort extends Activity {
 				Log.v(tag, "no3");
 			}
 		});
+	}
+	@Override
+	protected void onResume() {
+		super.onResume();
+		onCreate(saveBundle);
 	}
 }

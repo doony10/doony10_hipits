@@ -24,12 +24,12 @@ public class NameInsert extends Activity {
 	ArrayList<Integer> positionSave;
 	DBAdapter dba;
 	
-	@Override
-	public void onBackPressed() {
-		Intent intent = new Intent(NameInsert.this, spinnerSort.class);
-		startActivity(intent);
-		finish();
-	}
+//	@Override
+//	public void onBackPressed() {
+//		Intent intent = new Intent(NameInsert.this, spinnerSort.class);
+//		startActivity(intent);
+//		finish();
+//	}
     @Override
     public void onCreate(Bundle savedInstanceState) {
     	
