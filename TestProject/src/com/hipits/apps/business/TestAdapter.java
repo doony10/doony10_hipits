@@ -51,28 +51,6 @@ public class TestAdapter extends BaseAdapter {
 			TextView text_date = (TextView) arg1.findViewById(R.id.textView1);
 			final CheckBox chek = (CheckBox) arg1.findViewById(R.id.checkBox1);
 			chek.setChecked(itemList.get(postion).isCheck());
-			chek.setOnClickListener(new OnClickListener() {				
-				public void onClick(View arg0) {
-					itemList.get(postion).setCheck(!itemList.get(postion).isCheck());
-					if(itemList.get(postion).isCheck()){
-						Log.v("nameTest", itemList.get(postion).getTitle());
-					}
-					else{
-						Log.v("nameTest2", itemList.get(postion).getTitle());
-					}
-				}
-			});
-//			chek.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-//				
-//				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//					if(isChecked){
-//						
-//					}
-//					else{
-//						
-//					}
-//				}
-//			});
 			text_date.setText(itemList.get(postion).getTitle());
 			} catch (Exception e) {
 			e.printStackTrace();

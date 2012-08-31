@@ -90,16 +90,13 @@ public class NameInsert extends Activity {
 							int arg2, long arg3) {
 						persons.get(arg2).setCheck(!persons.get(arg2).isCheck());
 						if(persons.get(arg2).isCheck()){
-							Log.v("test2", persons.get(arg2).getTitle()+numberSave.get(arg2));
 							String number;
 							 dba.open();
 							 if(numberSave.get(arg2).length()>8){
 									number = numberSave.get(arg2).substring(3);
-									Log.v("start", number);
 								}
 								else{
 									number = numberSave.get(arg2);
-									Log.v("start2", number);
 								}
 							dba.insertEntry2(arg2, persons.get(arg2).getTitle(),number);
 						    dba.close();
