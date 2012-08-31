@@ -20,7 +20,7 @@ import android.widget.ListView;
 
 public class NameInsert extends Activity {
 	ListView listPerson;
-	ArrayList<String> numberSave;
+//	ArrayList<String> numberSave;
 	ArrayList<Integer> positionSave;
 	DBAdapter dba;
 	
@@ -53,7 +53,7 @@ public class NameInsert extends Activity {
     	        Cursor contactCursor = managedQuery(uri, projection, null, selectionArgs, sortOrder);
     	        //정보를 담을 array 설정
     	        final ArrayList<TestItem> persons = new ArrayList<TestItem>();
-    	        numberSave = new ArrayList<String>();
+//    	        numberSave = new ArrayList<String>();
     	        positionSave= new ArrayList<Integer>();
     	        dba.open();
     	        Cursor mCursor = dba.getAllEntries2();
@@ -69,9 +69,9 @@ public class NameInsert extends Activity {
     	        dba.close();
     	        if(contactCursor.moveToFirst()){       
     	            do{
-    	            	TestItem person = new TestItem(contactCursor.getString(1));
+    	            	TestItem person = new TestItem(contactCursor.getString(1),contactCursor.getString(0));
     	                persons.add(person);        
-    	                numberSave.add(contactCursor.getString(0));
+//    	                numberSave.add(contactCursor.getString(0));
     	            }while(contactCursor.moveToNext());
     	        }
     	        if(positionSave.size()!=0){
@@ -92,11 +92,11 @@ public class NameInsert extends Activity {
 						if(persons.get(arg2).isCheck()){
 							String number;
 							 dba.open();
-							 if(numberSave.get(arg2).length()>8){
-									number = numberSave.get(arg2).substring(3);
+							 if(persons.get(arg2).getNumber().length()>8){
+									number = persons.get(arg2).getNumber().substring(3);
 								}
 								else{
-									number = numberSave.get(arg2);
+									number = persons.get(arg2).getNumber();
 								}
 							dba.insertEntry2(arg2, persons.get(arg2).getTitle(),number);
 						    dba.close();
