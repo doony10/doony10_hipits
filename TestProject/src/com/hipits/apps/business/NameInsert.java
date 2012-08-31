@@ -5,31 +5,16 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.app.Activity;
-import android.content.Intent;
 import android.database.Cursor;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 
 public class NameInsert extends Activity {
 	ListView listPerson;
-//	ArrayList<String> numberSave;
 	ArrayList<Integer> positionSave;
 	DBAdapter dba;
-	
-//	@Override
-//	public void onBackPressed() {
-//		Intent intent = new Intent(NameInsert.this, spinnerSort.class);
-//		startActivity(intent);
-//		finish();
-//	}
     @Override
     public void onCreate(Bundle savedInstanceState) {
     	
@@ -62,7 +47,6 @@ public class NameInsert extends Activity {
     	        mCursor.moveToFirst();
     	        while(!mCursor.isAfterLast()){
     	        	positionSave.add(mCursor.getInt(indexid));
-    	        	Log.v("tests", mCursor.getInt(indexid)+"");
     	        	mCursor.moveToNext();
     	        }
     	        mCursor.close();

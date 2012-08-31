@@ -1,7 +1,5 @@
 package com.hipits.apps.business;
 
-
-import java.io.ObjectOutputStream.PutField;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -23,7 +21,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.Paint.Align;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -45,8 +42,6 @@ public class NumberInfo extends Activity {
 		text_number = (TextView) findViewById(R.id.textView_number);
 		text_date = (TextView) findViewById(R.id.textView_date);
 		text_massage = (TextView) findViewById(R.id.textView_massage);
-		
-		 Log.v("errorNO", "0");
 		 Intent intent = getIntent();
 			if( intent.getStringExtra("number").trim().length() >8){
 				numbers = intent.getStringExtra("number").trim().substring(3);
@@ -60,12 +55,9 @@ public class NumberInfo extends Activity {
 
 		SQLiteDatabase mDatabase=openOrCreateDatabase(
         		"numbermanager.db", Context.MODE_PRIVATE, null);
-        Log.v("errorNO", "2");
 		Cursor mCursor = mDatabase.rawQuery("SELECT * "+"FROM "+ "manager where number="+numbers+";", null);
-		Log.v("errorNO", "3"+numbers);
 		int indexdate = mCursor.getColumnIndex("time");
 		int indexmessage = mCursor.getColumnIndex("message");
-		Log.v("errorNO", "4");
 		mCursor.moveToFirst();
 		aNumberList = new ArrayList<Integer>();
 		defaultDate = new ArrayList<Integer>();
@@ -78,7 +70,6 @@ public class NumberInfo extends Activity {
 		String currentMonthString = currentMonthFormat.format(dateMonth);
 		month = currentMonthString.trim();
 		this.currentMonth = Integer.parseInt(month);
-		Log.v("currentMonth", month);
 		while (!mCursor.isAfterLast()){
 				ydate = mCursor.getLong(indexdate);
 				Date saveDate = new Date(ydate);//저장된 시간을 저장한다
@@ -87,20 +78,15 @@ public class NumberInfo extends Activity {
 				//SimpleDateFormat monthFormat = new SimpleDateFormat("MM");
 				String MonthString = currentMonthFormat.format(saveDate);
 				monthInt = Integer.parseInt(MonthString);
-				Log.v("month", MonthString);
 				SimpleDateFormat currentDateFormat = new SimpleDateFormat("dd");
 //				if(this.currentMonth == monthInt){
 					currentDate = currentDateFormat.format(saveDate);
 					aNumberList.add(Integer.parseInt(currentDate));
-					Log.v("test", "no????");
 //				}
 				message = mCursor.getString(indexmessage);
 				text_massage.setText(message);
 			mCursor.moveToNext();
-	    }
-
-        Log.v("eee", "아놔1");
-        
+	    }        
         for(int i = 0; i<31; i++){
         	defaultDate.add(i+1);
         }

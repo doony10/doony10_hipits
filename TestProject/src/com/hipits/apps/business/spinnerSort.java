@@ -1,13 +1,8 @@
 package com.hipits.apps.business;
 
-
-import java.io.ObjectOutputStream.PutField;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.List;
-
-import org.xml.sax.Parser;
 
 import com.hipits.apps.business.R;
 
@@ -19,8 +14,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -31,7 +24,6 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 public class spinnerSort extends Activity {
 	Spinner spinner_select;
@@ -56,11 +48,8 @@ public class spinnerSort extends Activity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (item.getItemId()==R.id.nameinsert){
-			Log.v("start", "go");
 			Intent intent = new Intent(spinnerSort.this, NameInsert.class);
-			Log.v("start", "gogo");
 			startActivity(intent);
-//			finish();
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -88,13 +77,8 @@ public class spinnerSort extends Activity {
 		ArrayAdapter<String> spinner_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, CATEGORY);
         spinner_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner_select.setAdapter(spinner_adapter);
-        Log.v("ddd", "no1");
 
     	spinnerInsert();
-        
-//		adapter1 = new SpinnerSortAdapter(spinnerSort.this, R.layout.spinnersorttext, nameResult1, numberResult1);
-//		adapter2 = new SpinnerSortAdapter(spinnerSort.this, R.layout.spinnersorttext, nameResult2, numberResult2);
-//		adapter3 = new SpinnerSortAdapter(spinnerSort.this, R.layout.spinnersorttext, nameResult3, numberResult3);
 		
 		spinner_select.setOnItemSelectedListener(new OnItemSelectedListener() {
 
@@ -122,14 +106,12 @@ public class spinnerSort extends Activity {
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 				String tag="intent";
-				Log.v(tag, "no1");
 				Intent intent = new Intent(spinnerSort.this, NumberInfo.class);
 				if (flag==2){
 					//최근
 					intent.putExtra("name", (String) nameResult3.get(arg2));
 					intent.putExtra("number", (String) nameNumbers3.get(arg2));
 					intent.putExtra("date", (String)  numberResult3.get(arg2));
-					Log.v(tag, nameResult3.get(arg2)+"");
 				}
 				else if(flag ==1){
 					//15일이상
@@ -143,9 +125,7 @@ public class spinnerSort extends Activity {
 					intent.putExtra("number", (String) nameNumbers1.get(arg2));
 					intent.putExtra("date", (String) numberResult1.get(arg2));
 				}
-				Log.v(tag, "no2");
 				startActivity(intent);
-				Log.v(tag, "no3");
 			}
 		});
 	}
@@ -191,8 +171,6 @@ public class spinnerSort extends Activity {
 		nameResult3 = new ArrayList();
 		numberResult3 = new ArrayList();
 		nameNumbers3 = new ArrayList();
-		
-	    Log.v("ddd", "no4");
 		while (!mCursor.isAfterLast()){
 			number = mCursor.getString(indexnumber);			
 			int num = Integer.parseInt(number);
@@ -212,7 +190,6 @@ public class spinnerSort extends Activity {
 					result2_day.add(currentDate);
 				}
 				else if (subTime < 1296000000){		//최근
-					Log.v("testnumbers", number);
 						result3.add(number);
 						result3_day.add(currentDate);
 				}
@@ -231,13 +208,10 @@ public class spinnerSort extends Activity {
 	    for (int i = 0; i<result3.size();i++){
 	    	String fors3 = (String) result3.get(i);
 	    	String days3 = (String) result3_day.get(i);
-	    	Log.v("fors3s", fors3);
 			dbCursor.moveToFirst();
 			while (!dbCursor.isAfterLast()){
 				String nNumber = dbCursor.getString(inNumber);
-				Log.v("fors3s", nNumber);
 				if (fors3.equals(nNumber)){
-					Log.v("nametest", dbCursor.getString(inName));
 					nameResult3.add(dbCursor.getString(inName));
 					nameNumbers3.add((String) result3.get(i));
 					numberResult3.add(days3);
@@ -252,7 +226,6 @@ public class spinnerSort extends Activity {
 			while (!dbCursor.isAfterLast()){
 				String nNumber = dbCursor.getString(inNumber);
 				if (fors1.equals(nNumber)){
-					Log.v("nametest", dbCursor.getString(inName));
 					nameResult1.add(dbCursor.getString(inName));
 					nameNumbers1.add((String) result1.get(i));
 					numberResult1.add(days1);
@@ -265,7 +238,6 @@ public class spinnerSort extends Activity {
 	    	String days2 = (String) result2_day.get(i);
 			dbCursor.moveToFirst();
 			while (!dbCursor.isAfterLast()){
-				Log.v("nametest", dbCursor.getString(inName));
 				String nNumber = dbCursor.getString(inNumber);
 				if (fors2.equals(nNumber)){
 					nameResult2.add(dbCursor.getString(inName));
