@@ -22,6 +22,7 @@ public class ProjectTestActivity extends Activity {
 	String number="", message="";
 	long date;
 	LinearLayout layout;
+	Handler mHandler = new Handler();
     /** Called when the activity is first created. */
 	@Override
 	public void onBackPressed() {
@@ -34,6 +35,7 @@ public class ProjectTestActivity extends Activity {
 	      .setMessage(buttonMessage)
 	      .setPositiveButton(buttonYes, new DialogInterface.OnClickListener() {
 	    	  public void onClick(DialogInterface dialog, int which) {
+	    		  mHandler.removeMessages(0);
 	    		  finish();
 	    	  }
 	    	  }).setNegativeButton(buttonNo, null).show();
@@ -45,9 +47,7 @@ public class ProjectTestActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 		DBAdapter db = new DBAdapter(getApplicationContext());
-		db.open();
-		
-        final Handler mHandler = new Handler();
+		db.open();		
         mHandler.postDelayed(new Runnable() {
 			
 			public void run() {

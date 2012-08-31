@@ -45,7 +45,6 @@ public class spinnerSort extends Activity {
 	ArrayList nameResult1, numberResult1, nameNumbers1;
 	ArrayList nameResult2, numberResult2, nameNumbers2;
 	ArrayList nameResult3, numberResult3, nameNumbers3;
-	Bundle saveBundle;
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -84,8 +83,6 @@ public class spinnerSort extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.spinnersort);
-		
-		saveBundle = savedInstanceState;
 		spinner_select = (Spinner) findViewById(R.id.spinner_select);
 		listView_list = (ListView) findViewById(R.id.listView_list);
 		ArrayAdapter<String> spinner_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, CATEGORY);
@@ -93,124 +90,11 @@ public class spinnerSort extends Activity {
         spinner_select.setAdapter(spinner_adapter);
         Log.v("ddd", "no1");
 
-    	String number="", message="";
-        SQLiteDatabase mDatabase=openOrCreateDatabase(
-        		"numbermanager.db", Context.MODE_PRIVATE, null);
-
-		Cursor mCursor = mDatabase.rawQuery("SELECT * "+"FROM "+ "manager group by number;", null);
-		int indexnumber = mCursor.getColumnIndex("number");
-		int indextime = mCursor.getColumnIndex("time");
-		mCursor.moveToFirst();
-		
-		final ArrayList result1= new ArrayList();
-		final ArrayList result2= new ArrayList();
-		final ArrayList result3= new ArrayList();
-		final ArrayList result1_day = new ArrayList();
-		final ArrayList result2_day = new ArrayList();
-		final ArrayList result3_day = new ArrayList();
-		
-		nameResult1 = new ArrayList();
-		numberResult1 = new ArrayList();
-		nameNumbers1 = new ArrayList();
-		
-		nameResult2 = new ArrayList();
-		numberResult2 = new ArrayList();
-		nameNumbers2 = new ArrayList();
-		
-		nameResult3 = new ArrayList();
-		numberResult3 = new ArrayList();
-		nameNumbers3 = new ArrayList();
-		
-	    Log.v("ddd", "no4");
-		while (!mCursor.isAfterLast()){
-			number = mCursor.getString(indexnumber);			
-			int num = Integer.parseInt(number);
-			ydate = mCursor.getLong(indextime);
-			long currentTime  =System.currentTimeMillis(); //현재 시간을 msec로 구한다.
-			long subTime = currentTime - ydate;
-			Date date = new Date(ydate);//현재 시간을 저장한다
-			//시간 포멧으로 만든다.
-			SimpleDateFormat currentDateFormat = new SimpleDateFormat("yyyy/MM/dd");
-			String currentDate = currentDateFormat.format(date);
-				if (subTime >= 2592000000l){		//한달이상
-					result1.add(number);
-					result1_day.add(currentDate);
-				}
-				else if (subTime < 2592000000l && subTime >=1296000000){		//보름이상
-					result2.add(number);
-					result2_day.add(currentDate);
-				}
-				else if (subTime < 1296000000){		//최근
-					Log.v("testnumbers", number);
-						result3.add(number);
-						result3_day.add(currentDate);
-				}
-				mCursor.moveToNext();
-			}
-	    mCursor.close();
-	    mDatabase.close();
-	    
-        SQLiteDatabase dbDatabase=openOrCreateDatabase(
-        		"numbermanager.db", Context.MODE_PRIVATE, null);
-
-		Cursor dbCursor = dbDatabase.rawQuery("SELECT * "+"FROM "+ "namemanager group by number;", null);
-		int inName = dbCursor.getColumnIndex("name");
-		int inNumber = dbCursor.getColumnIndex("number");   
-		
-	    for (int i = 0; i<result3.size();i++){
-	    	String fors3 = (String) result3.get(i);
-	    	String days3 = (String) result3_day.get(i);
-	    	Log.v("fors3s", fors3);
-			dbCursor.moveToFirst();
-			while (!dbCursor.isAfterLast()){
-				String nNumber = dbCursor.getString(inNumber);
-				Log.v("fors3s", nNumber);
-				if (fors3.equals(nNumber)){
-					Log.v("nametest", dbCursor.getString(inName));
-					nameResult3.add(dbCursor.getString(inName));
-					nameNumbers3.add((String) result3.get(i));
-					numberResult3.add(days3);
-				}
-				dbCursor.moveToNext();
-			}
-	    }
-	    for (int i = 0; i<result1.size();i++){
-	    	String fors1 = (String) result1.get(i);
-	    	String days1 = (String) result1_day.get(i);
-			dbCursor.moveToFirst();
-			while (!dbCursor.isAfterLast()){
-				String nNumber = dbCursor.getString(inNumber);
-				if (fors1.equals(nNumber)){
-					Log.v("nametest", dbCursor.getString(inName));
-					nameResult1.add(dbCursor.getString(inName));
-					nameNumbers1.add((String) result1.get(i));
-					numberResult1.add(days1);
-				}
-				dbCursor.moveToNext();
-			}
-	    }
-	    for (int i = 0; i<result2.size();i++){
-	    	String fors2 = (String) result2.get(i);
-	    	String days2 = (String) result2_day.get(i);
-			dbCursor.moveToFirst();
-			while (!dbCursor.isAfterLast()){
-				Log.v("nametest", dbCursor.getString(inName));
-				String nNumber = dbCursor.getString(inNumber);
-				if (fors2.equals(nNumber)){
-					nameResult2.add(dbCursor.getString(inName));
-					nameNumbers2.add((String) result2.get(i));
-					numberResult2.add(days2);
-				}
-				dbCursor.moveToNext();
-			}
-	    }
-		dbCursor.close();
-    	dbDatabase.close();
-    	
-    	
-		adapter1 = new SpinnerSortAdapter(spinnerSort.this, R.layout.spinnersorttext, nameResult1, numberResult1);
-		adapter2 = new SpinnerSortAdapter(spinnerSort.this, R.layout.spinnersorttext, nameResult2, numberResult2);
-		adapter3 = new SpinnerSortAdapter(spinnerSort.this, R.layout.spinnersorttext, nameResult3, numberResult3);
+    	spinnerInsert();
+        
+//		adapter1 = new SpinnerSortAdapter(spinnerSort.this, R.layout.spinnersorttext, nameResult1, numberResult1);
+//		adapter2 = new SpinnerSortAdapter(spinnerSort.this, R.layout.spinnersorttext, nameResult2, numberResult2);
+//		adapter3 = new SpinnerSortAdapter(spinnerSort.this, R.layout.spinnersorttext, nameResult3, numberResult3);
 		
 		spinner_select.setOnItemSelectedListener(new OnItemSelectedListener() {
 
@@ -268,6 +152,133 @@ public class spinnerSort extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		onCreate(saveBundle);
+		spinnerInsert();
+		if (flag==0){
+			listView_list.setAdapter(adapter1);
+		}
+		else if (flag==1){
+			listView_list.setAdapter(adapter2);
+		}
+		else {
+			listView_list.setAdapter(adapter3);
+		}
+	}
+	void spinnerInsert(){
+		String number="", message="";
+        SQLiteDatabase mDatabase=openOrCreateDatabase(
+        		"numbermanager.db", Context.MODE_PRIVATE, null);
+
+		Cursor mCursor = mDatabase.rawQuery("SELECT * "+"FROM "+ "manager group by number;", null);
+		int indexnumber = mCursor.getColumnIndex("number");
+		int indextime = mCursor.getColumnIndex("time");
+		mCursor.moveToFirst();
+		
+		final ArrayList result1= new ArrayList();
+		final ArrayList result2= new ArrayList();
+		final ArrayList result3= new ArrayList();
+		final ArrayList result1_day = new ArrayList();
+		final ArrayList result2_day = new ArrayList();
+		final ArrayList result3_day = new ArrayList();
+		
+		nameResult1 = new ArrayList();
+		numberResult1 = new ArrayList();
+		nameNumbers1 = new ArrayList();
+		
+		nameResult2 = new ArrayList();
+		numberResult2 = new ArrayList();
+		nameNumbers2 = new ArrayList();
+		
+		nameResult3 = new ArrayList();
+		numberResult3 = new ArrayList();
+		nameNumbers3 = new ArrayList();
+		
+	    Log.v("ddd", "no4");
+		while (!mCursor.isAfterLast()){
+			number = mCursor.getString(indexnumber);			
+			int num = Integer.parseInt(number);
+			ydate = mCursor.getLong(indextime);
+			long currentTime  =System.currentTimeMillis(); //현재 시간을 msec로 구한다.
+			long subTime = currentTime - ydate;
+			Date date = new Date(ydate);//현재 시간을 저장한다
+			//시간 포멧으로 만든다.
+			SimpleDateFormat currentDateFormat = new SimpleDateFormat("yyyy/MM/dd");
+			String currentDate = currentDateFormat.format(date);
+				if (subTime >= 2592000000l){		//한달이상
+					result1.add(number);
+					result1_day.add(currentDate);
+				}
+				else if (subTime < 2592000000l && subTime >=1296000000){		//보름이상
+					result2.add(number);
+					result2_day.add(currentDate);
+				}
+				else if (subTime < 1296000000){		//최근
+					Log.v("testnumbers", number);
+						result3.add(number);
+						result3_day.add(currentDate);
+				}
+				mCursor.moveToNext();
+			}
+	    mCursor.close();
+	    mDatabase.close();   	
+    	
+        SQLiteDatabase dbDatabase=openOrCreateDatabase(
+        		"numbermanager.db", Context.MODE_PRIVATE, null);
+
+		Cursor dbCursor = dbDatabase.rawQuery("SELECT * "+"FROM "+ "namemanager group by number;", null);
+		int inName = dbCursor.getColumnIndex("name");
+		int inNumber = dbCursor.getColumnIndex("number");   
+		
+	    for (int i = 0; i<result3.size();i++){
+	    	String fors3 = (String) result3.get(i);
+	    	String days3 = (String) result3_day.get(i);
+	    	Log.v("fors3s", fors3);
+			dbCursor.moveToFirst();
+			while (!dbCursor.isAfterLast()){
+				String nNumber = dbCursor.getString(inNumber);
+				Log.v("fors3s", nNumber);
+				if (fors3.equals(nNumber)){
+					Log.v("nametest", dbCursor.getString(inName));
+					nameResult3.add(dbCursor.getString(inName));
+					nameNumbers3.add((String) result3.get(i));
+					numberResult3.add(days3);
+				}
+				dbCursor.moveToNext();
+			}
+	    }
+	    for (int i = 0; i<result1.size();i++){
+	    	String fors1 = (String) result1.get(i);
+	    	String days1 = (String) result1_day.get(i);
+			dbCursor.moveToFirst();
+			while (!dbCursor.isAfterLast()){
+				String nNumber = dbCursor.getString(inNumber);
+				if (fors1.equals(nNumber)){
+					Log.v("nametest", dbCursor.getString(inName));
+					nameResult1.add(dbCursor.getString(inName));
+					nameNumbers1.add((String) result1.get(i));
+					numberResult1.add(days1);
+				}
+				dbCursor.moveToNext();
+			}
+	    }
+	    for (int i = 0; i<result2.size();i++){
+	    	String fors2 = (String) result2.get(i);
+	    	String days2 = (String) result2_day.get(i);
+			dbCursor.moveToFirst();
+			while (!dbCursor.isAfterLast()){
+				Log.v("nametest", dbCursor.getString(inName));
+				String nNumber = dbCursor.getString(inNumber);
+				if (fors2.equals(nNumber)){
+					nameResult2.add(dbCursor.getString(inName));
+					nameNumbers2.add((String) result2.get(i));
+					numberResult2.add(days2);
+				}
+				dbCursor.moveToNext();
+			}
+	    }
+		dbCursor.close();
+    	dbDatabase.close();
+		adapter1 = new SpinnerSortAdapter(spinnerSort.this, R.layout.spinnersorttext, nameResult1, numberResult1);
+		adapter2 = new SpinnerSortAdapter(spinnerSort.this, R.layout.spinnersorttext, nameResult2, numberResult2);
+		adapter3 = new SpinnerSortAdapter(spinnerSort.this, R.layout.spinnersorttext, nameResult3, numberResult3);
 	}
 }
