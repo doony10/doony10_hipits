@@ -1,18 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
-
-    <Spinner
-        android:id="@+id/spinner_select"
+    <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        android:layout_weight="1" >
+	
+        <Spinner
+            android:id="@+id/spinner_select"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
 
-    <ListView
-        android:id="@+id/listView_list"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" >
-    </ListView>
+        <ListView
+            android:id="@+id/listView_list"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
+        </ListView>
+    </LinearLayout>
+    	<net.daum.adam.publisher.AdView
+                android:id="@+id/adview"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:visibility="invisible"
+                android:layout_gravity="bottom">
+         </net.daum.adam.publisher.AdView>
 
-</LinearLayout>
+</FrameLayout>

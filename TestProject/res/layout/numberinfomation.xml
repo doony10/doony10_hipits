@@ -1,45 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical">
-
-    <TextView
-        android:id="@+id/textView_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="이름"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <TextView
-        android:id="@+id/textView_number"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="전화번호"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <TextView
-        android:id="@+id/textView_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="마지막 연락 날짜"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <TextView
-        android:id="@+id/textView_massage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="마지막 메세지"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
+
     <LinearLayout
-        android:id="@+id/graph"
-       android:layout_width="fill_parent"
-       android:layout_height="wrap_content"
-       android:layout_weight="1" 
-       android:orientation="vertical" 
-        android:layout_marginTop="90dp">
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical" 
+        android:layout_weight="1">
 
+        <TextView
+            android:id="@+id/textView_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="이름"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <TextView
+            android:id="@+id/textView_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="전화번호"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <TextView
+            android:id="@+id/textView_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="마지막 연락 날짜"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <TextView
+            android:id="@+id/textView_massage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="마지막 메세지"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <LinearLayout
+            android:id="@+id/graph"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="90dp"
+            android:layout_weight="1"
+            android:orientation="vertical" >
+        </LinearLayout>
     </LinearLayout>
+        	<net.daum.adam.publisher.AdView
+                android:id="@+id/adview_info"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:visibility="invisible"
+                android:layout_gravity="bottom">
+         </net.daum.adam.publisher.AdView>
 
-</LinearLayout>
+</FrameLayout>

@@ -1,15 +1,31 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" 
     android:screenOrientation="portrait">
 
-    <ListView
-        android:id="@+id/listView_nameinsert"
+    <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_weight="1" >
-    </ListView>
+        android:layout_weight="1"
+        android:orientation="vertical" >
 
-</LinearLayout>
+        <ListView
+            android:id="@+id/listView_nameinsert"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1" >            
+        </ListView>
+
+    </LinearLayout>
+
+    <net.daum.adam.publisher.AdView
+        android:id="@+id/adview_nameinsert"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:layout_gravity="bottom" >
+    </net.daum.adam.publisher.AdView>
+
+</FrameLayout>

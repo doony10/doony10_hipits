@@ -1,11 +1,21 @@
 package com.hipits.apps.business;
 
 import java.util.ArrayList;
+
+import net.daum.adam.publisher.AdView;
+import net.daum.adam.publisher.AdView.AnimationType;
+import net.daum.adam.publisher.AdView.OnAdClickedListener;
+import net.daum.adam.publisher.AdView.OnAdClosedListener;
+import net.daum.adam.publisher.AdView.OnAdFailedListener;
+import net.daum.adam.publisher.AdView.OnAdLoadedListener;
+import net.daum.adam.publisher.AdView.OnAdWillLoadListener;
+import net.daum.adam.publisher.impl.AdError;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.app.Activity;
 import android.database.Cursor;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -15,6 +25,8 @@ public class NameInsert extends Activity {
 	ListView listPerson;
 	ArrayList<Integer> positionSave;
 	DBAdapter dba;
+	private static final String LOGTAG = "BannerTypeXML1";
+	private AdView adView = null;
     @Override
     public void onCreate(Bundle savedInstanceState) {
     	
@@ -23,6 +35,7 @@ public class NameInsert extends Activity {
         
         listPerson = (ListView)findViewById(R.id.listView_nameinsert);        
         getList();
+        initAdam();
     }
     public void getList(){
     		dba= new DBAdapter(this);            	
@@ -32,11 +45,11 @@ public class NameInsert extends Activity {
     	                ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME
     	        };
     	        String[] selectionArgs = null;
-    	        //¡§∑ƒ
+    	        //Ï†ïÎ†¨
     	        String sortOrder = ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " COLLATE LOCALIZED ASC";
-    	        //¡∂»∏«ÿº≠ ∞°¡Æø¬¥Ÿ
+    	        //Ï°∞ÌöåÌï¥ÏÑú Í∞ÄÏ†∏Ïò®Îã§
     	        Cursor contactCursor = managedQuery(uri, projection, null, selectionArgs, sortOrder);
-    	        //¡§∫∏∏¶ ¥„¿ª array º≥¡§
+    	        //Ï†ïÎ≥¥Î•º Îã¥ÏùÑ array ÏÑ§Ï†ï
     	        final ArrayList<TestItem> persons = new ArrayList<TestItem>();
 //    	        numberSave = new ArrayList<String>();
     	        positionSave= new ArrayList<Integer>();
@@ -63,9 +76,9 @@ public class NameInsert extends Activity {
     	        		persons.get(positionSave.get(i)).setCheck(true);
     	        	}
     	        }
-    	        //∏ÆΩ∫∆Æø° ø¨∞·«“ adapter º≥¡§      
+    	        //Î¶¨Ïä§Ìä∏Ïóê Ïó∞Í≤∞Ìï† adapter ÏÑ§Ï†ï      
     	        final TestAdapter adp = new TestAdapter(persons, R.layout.adapter, NameInsert.this);
-    	        //∏ÆΩ∫∆Æ∫‰ø° «•Ω√
+    	        //Î¶¨Ïä§Ìä∏Î∑∞Ïóê ÌëúÏãú
     	        listPerson.setAdapter(adp);
     	        listPerson.setItemsCanFocus(false);
     	        listPerson.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
@@ -90,12 +103,21 @@ public class NameInsert extends Activity {
 							dba.deleteEntry2(arg2);
 						    dba.close();
 						}
-						// ∏ÆΩ∫∆Æ∫‰ ∏Ò∑œ »≠∏È ∞ªΩ≈
+						// Î¶¨Ïä§Ìä∏Î∑∞ Î™©Î°ù ÌôîÎ©¥ Í∞±Ïã†
 						adp.notifyDataSetChanged();
 					}
 				});
     	    
     	    }
+    private void initAdam() {
+		adView = (AdView) findViewById(R.id.adview_nameinsert);
+		adView.setRequestInterval(5);
+		adView.setClientId("38e8Z8cT13980171560");
 
+		adView.setRequestInterval(12);
+		adView.setAnimationType(AnimationType.FLIP_HORIZONTAL);
+
+		adView.setVisibility(View.VISIBLE);
+	}
     
 }

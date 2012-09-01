@@ -4,6 +4,15 @@ import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
+import net.daum.adam.publisher.AdView;
+import net.daum.adam.publisher.AdView.AnimationType;
+import net.daum.adam.publisher.AdView.OnAdClickedListener;
+import net.daum.adam.publisher.AdView.OnAdClosedListener;
+import net.daum.adam.publisher.AdView.OnAdFailedListener;
+import net.daum.adam.publisher.AdView.OnAdLoadedListener;
+import net.daum.adam.publisher.AdView.OnAdWillLoadListener;
+import net.daum.adam.publisher.impl.AdError;
+
 import com.hipits.apps.business.R;
 
 import android.app.Activity;
@@ -14,6 +23,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -28,7 +38,7 @@ import android.widget.Spinner;
 public class spinnerSort extends Activity {
 	Spinner spinner_select;
 	ListView listView_list;
-	static final String[] CATEGORY = {"30ÀÏÀÌ»ó ¿¬¶ô µÇÁö¾ÊÀº »ç¶÷µé","15ÀÏ~30ÀÏÀü¿¡ ¿¬¶ôÇÑ »ç¶÷µé", "15ÀÏÀÌ³»¿¡ ¿¬¶ôÇÑ »ç¶÷µé"};
+	static final String[] CATEGORY = {"30ì¼ì´ìƒ ì—°ë½ ë˜ì§€ì•Šì€ ì‚¬ëŒë“¤","15ì¼~30ì¼ì „ì— ì—°ë½í•œ ì‚¬ëŒë“¤", "15ì¼ì´ë‚´ì— ì—°ë½í•œ ì‚¬ëŒë“¤"};
 	long ydate;
 	SpinnerSortAdapter adapter1;
 	SpinnerSortAdapter adapter2;
@@ -36,7 +46,9 @@ public class spinnerSort extends Activity {
 	int flag;
 	ArrayList<String> nameResult1, numberResult1, nameNumbers1;
 	ArrayList<String> nameResult2, numberResult2, nameNumbers2;
-	ArrayList<String> nameResult3, numberResult3, nameNumbers3;
+	ArrayList<String> nameResult3, numberResult3, nameNumbers3;	
+	private static final String LOGTAG = "BannerTypeXML1";
+	private AdView adView = null;
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -72,6 +84,7 @@ public class spinnerSort extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.spinnersort);
+		
 		spinner_select = (Spinner) findViewById(R.id.spinner_select);
 		listView_list = (ListView) findViewById(R.id.listView_list);
 		ArrayAdapter<String> spinner_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, CATEGORY);
@@ -79,16 +92,17 @@ public class spinnerSort extends Activity {
         spinner_select.setAdapter(spinner_adapter);
 
     	spinnerInsert();
-		
+    	initAdam();
 		spinner_select.setOnItemSelectedListener(new OnItemSelectedListener() {
 
 			public void onItemSelected(AdapterView<?> arg0, View arg1,
 					int arg2, long arg3) {
-				if (CATEGORY[(int) arg3].equals("30ÀÏÀÌ»ó ¿¬¶ô µÇÁö¾ÊÀº »ç¶÷µé")){
+				if (CATEGORY[(int) arg3].equals("30ì¼ì´ìƒ ì—°ë½ ë˜ì§€ì•Šì€ ì‚¬ëŒë“¤")){
+					
 					listView_list.setAdapter(adapter1);
 					flag = 0;
 				}
-				else if (CATEGORY[(int) arg3].equals("15ÀÏ~30ÀÏÀü¿¡ ¿¬¶ôÇÑ »ç¶÷µé")){
+				else if (CATEGORY[(int) arg3].equals("15ì¼~30ì¼ì „ì— ì—°ë½í•œ ì‚¬ëŒë“¤")){
 					listView_list.setAdapter(adapter2);
 					flag = 1;
 				}
@@ -107,19 +121,19 @@ public class spinnerSort extends Activity {
 					long arg3) {
 				Intent intent = new Intent(spinnerSort.this, NumberInfo.class);
 				if (flag==2){
-					//ÃÖ±Ù
+					//ìµœê·¼
 					intent.putExtra("name", (String) nameResult3.get(arg2));
 					intent.putExtra("number", (String) nameNumbers3.get(arg2));
 					intent.putExtra("date", (String)  numberResult3.get(arg2));
 				}
 				else if(flag ==1){
-					//15ÀÏÀÌ»ó
+					//15ì¼ì´ìƒ
 					intent.putExtra("name", (String) nameResult2.get(arg2));
 					intent.putExtra("number", (String) nameNumbers2.get(arg2));
 					intent.putExtra("date", (String) numberResult2.get(arg2));
 				}
 				else {
-					//30ÀÏÀÌ»ó
+					//30ì¼ì´ìƒ
 					intent.putExtra("name", (String) nameResult1.get(arg2));
 					intent.putExtra("number", (String) nameNumbers1.get(arg2));
 					intent.putExtra("date", (String) numberResult1.get(arg2));
@@ -174,7 +188,7 @@ public class spinnerSort extends Activity {
 		while (!mCursor.isAfterLast()){
 			number = mCursor.getString(indexnumber);			
 			ydate = mCursor.getLong(indextime);
-			long currentTime  =System.currentTimeMillis(); //ÇöÀç ½Ã°£À» msec·Î ±¸ÇÑ´Ù.
+			long currentTime  =System.currentTimeMillis(); //í˜„ì¬ ì‹œê°„ì„ msecë¡œ êµ¬í•œë‹¤.
 			long subTime = currentTime - ydate;
 			Date date = new Date(ydate);
 			SimpleDateFormat currentDateFormat = new SimpleDateFormat("yyyy/MM/dd");
@@ -182,17 +196,17 @@ public class spinnerSort extends Activity {
 			dbCursor.moveToFirst();
 			while(!dbCursor.isAfterLast()){
 				if (number.equals(dbCursor.getString(inNumber))){
-					if (subTime >= 2592000000l){		//ÇÑ´ŞÀÌ»ó
+					if (subTime >= 2592000000l){		//í•œë‹¬ì´ìƒ
 						nameResult1.add(dbCursor.getString(inName));
 						nameNumbers1.add(number);
 						numberResult1.add(currentDate);
 					}
-					else if (subTime < 2592000000l && subTime >=1296000000){		//º¸¸§ÀÌ»ó
+					else if (subTime < 2592000000l && subTime >=1296000000){		//ë³´ë¦„ì´ìƒ
 						nameResult2.add(dbCursor.getString(inName));
 						nameNumbers2.add(number);
 						numberResult2.add(currentDate);
 					}
-					else if (subTime < 1296000000){		//ÃÖ±Ù
+					else if (subTime < 1296000000){		//ìµœê·¼
 						nameResult3.add(dbCursor.getString(inName));
 						nameNumbers3.add(number);
 						numberResult3.add(currentDate);
@@ -209,5 +223,15 @@ public class spinnerSort extends Activity {
 		adapter1 = new SpinnerSortAdapter(spinnerSort.this, R.layout.spinnersorttext, nameResult1, numberResult1);
 		adapter2 = new SpinnerSortAdapter(spinnerSort.this, R.layout.spinnersorttext, nameResult2, numberResult2);
 		adapter3 = new SpinnerSortAdapter(spinnerSort.this, R.layout.spinnersorttext, nameResult3, numberResult3);
+	}
+	private void initAdam() {
+		adView = (AdView) findViewById(R.id.adview);
+		adView.setRequestInterval(5);
+		adView.setClientId("38e8Z8cT13980171560");
+
+		adView.setRequestInterval(12);
+		adView.setAnimationType(AnimationType.FLIP_HORIZONTAL);
+
+		adView.setVisibility(View.VISIBLE);
 	}
 }

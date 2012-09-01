@@ -4,6 +4,15 @@ import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
+import net.daum.adam.publisher.AdView;
+import net.daum.adam.publisher.AdView.AnimationType;
+import net.daum.adam.publisher.AdView.OnAdClickedListener;
+import net.daum.adam.publisher.AdView.OnAdClosedListener;
+import net.daum.adam.publisher.AdView.OnAdFailedListener;
+import net.daum.adam.publisher.AdView.OnAdLoadedListener;
+import net.daum.adam.publisher.AdView.OnAdWillLoadListener;
+import net.daum.adam.publisher.impl.AdError;
+
 import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
 import org.achartengine.model.CategorySeries;
@@ -21,6 +30,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.Paint.Align;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -33,10 +43,13 @@ public class NumberInfo extends Activity {
 	ArrayList<Integer> aNumberList, defaultDate,numbers2;
 	int i=0, dateNumber;
 	int currentMonth, monthInt;
+	private AdView adView = null;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.numberinfomation);
+		
+		initAdam();
 		
 		text_name = (TextView) findViewById(R.id.textView_name);
 		text_number = (TextView) findViewById(R.id.textView_number);
@@ -68,8 +81,11 @@ public class NumberInfo extends Activity {
 		//시간 포멧으로 만든다.
 		SimpleDateFormat currentMonthFormat = new SimpleDateFormat("MM");
 		String currentMonthString = currentMonthFormat.format(dateMonth);
+		String currentMouth = currentMonthFormat.format(dateMonth);
+		
 		month = currentMonthString.trim();
 		this.currentMonth = Integer.parseInt(month);
+		
 		while (!mCursor.isAfterLast()){
 				ydate = mCursor.getLong(indexdate);
 				Date saveDate = new Date(ydate);//저장된 시간을 저장한다
@@ -80,8 +96,10 @@ public class NumberInfo extends Activity {
 				monthInt = Integer.parseInt(MonthString);
 				SimpleDateFormat currentDateFormat = new SimpleDateFormat("dd");
 //				if(this.currentMonth == monthInt){
+				if(currentMonthFormat.format(saveDate).equals(currentMonthFormat.format(dateMonth))){
 					currentDate = currentDateFormat.format(saveDate);
 					aNumberList.add(Integer.parseInt(currentDate));
+				}
 //				}
 				message = mCursor.getString(indexmessage);
 				text_massage.setText(message);
@@ -108,8 +126,7 @@ public class NumberInfo extends Activity {
         values.add(ddo);
        //그래프 출력을 위한 그래픽 속성 지정 객체
         XYMultipleSeriesRenderer renderer = new XYMultipleSeriesRenderer();
-		String currentMouth = currentMonthFormat.format(dateMonth);
-      //상단 표시 제목과 글자 크기
+      //상단 표시 제목과 글자 크기        
         renderer.setChartTitle(currentMouth+"월 연락횟수 통계");
         renderer.setChartTitleTextSize(40);
         //분류에 대한 이름
@@ -168,5 +185,15 @@ public class NumberInfo extends Activity {
         GraphicalView gv = ChartFactory.getBarChartView(this, dataset, renderer, org.achartengine.chart.BarChart.Type.STACKED);
         LinearLayout llBody = (LinearLayout) findViewById(R.id.graph);
         llBody.addView(gv);
+	}
+	private void initAdam() {
+		adView = (AdView) findViewById(R.id.adview_info);
+		adView.setRequestInterval(5);
+		adView.setClientId("38e8Z8cT13980171560");
+
+		adView.setRequestInterval(12);
+		adView.setAnimationType(AnimationType.FLIP_HORIZONTAL);
+
+		adView.setVisibility(View.VISIBLE);
 	}
 }
