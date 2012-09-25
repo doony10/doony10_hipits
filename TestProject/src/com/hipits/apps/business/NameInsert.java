@@ -18,6 +18,7 @@ import android.database.Cursor;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
@@ -27,12 +28,18 @@ public class NameInsert extends Activity {
 	DBAdapter dba;
 	private static final String LOGTAG = "BannerTypeXML1";
 	private AdView adView = null;
+	Button button_add, button_delete;
+	TestAdapter adp;
+	ArrayList<TestItem> persons;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.namemain);
+
+		button_add = (Button) findViewById(R.id.button_namealladd);
+		button_delete = (Button) findViewById(R.id.button_namealldelete);
 
 		adView = (AdView) findViewById(R.id.adview_nameinsert);
 		Adams adams = new Adams(adView);
@@ -41,6 +48,53 @@ public class NameInsert extends Activity {
 
 		listPerson = (ListView) findViewById(R.id.listView_nameinsert);
 		getList();
+
+		View.OnClickListener listener = new View.OnClickListener() {
+
+			public void onClick(View v) {
+				if (v.equals(button_add)) {
+					dba.open();
+					Cursor delCursor = dba.getAllEntries2();
+					int indexId = delCursor.getColumnIndex("id");
+					delCursor.moveToFirst();
+					while (!delCursor.isAfterLast()) {
+						dba.deleteEntry2(delCursor.getInt(indexId));
+						delCursor.moveToNext();
+					}
+					delCursor.close();
+					for (int i = 0; i < persons.size(); i++) {
+						persons.get(i).setCheck(true);
+						String number;
+						if (persons.get(i).getNumber().length() > 8) {
+							number = persons.get(i).getNumber().substring(3);
+						} else {
+							number = persons.get(i).getNumber();
+						}
+						dba.insertEntry2(i, persons.get(i).getTitle(), number);
+					}
+					dba.close();
+					adp.notifyDataSetChanged();
+				} else if (v.equals(button_delete)) {
+					for (int i = 0; i < persons.size(); i++) {
+						persons.get(i).setCheck(false);
+						dba.open();
+						Cursor delCursor = dba.getAllEntries2();
+						int indexId = delCursor.getColumnIndex("id");
+						delCursor.moveToFirst();
+						while (!delCursor.isAfterLast()) {
+							dba.deleteEntry2(delCursor.getInt(indexId));
+							delCursor.moveToNext();
+						}
+						delCursor.close();
+						dba.close();
+						adp.notifyDataSetChanged();
+					}
+				}
+			}
+		};
+
+		button_add.setOnClickListener(listener);
+		button_delete.setOnClickListener(listener);
 	}
 
 	public void getList() {
@@ -57,7 +111,7 @@ public class NameInsert extends Activity {
 		Cursor contactCursor = managedQuery(uri, projection, null,
 				selectionArgs, sortOrder);
 		// 정보를 담을 array 설정
-		final ArrayList<TestItem> persons = new ArrayList<TestItem>();
+		persons = new ArrayList<TestItem>();
 		// numberSave = new ArrayList<String>();
 		positionSave = new ArrayList<Integer>();
 		dba.open();
@@ -85,8 +139,7 @@ public class NameInsert extends Activity {
 			}
 		}
 		// 리스트에 연결할 adapter 설정
-		final TestAdapter adp = new TestAdapter(persons, R.layout.adapter,
-				NameInsert.this);
+		adp = new TestAdapter(persons, R.layout.adapter, NameInsert.this);
 		// 리스트뷰에 표시
 		listPerson.setAdapter(adp);
 		listPerson.setItemsCanFocus(false);

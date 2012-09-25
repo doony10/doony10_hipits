@@ -5,6 +5,27 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0px"
+        android:layout_weight="1" >
+
+        <Button
+            android:id="@+id/button_namealladd"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:text="전체 목록 추가"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/button_namealldelete"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:text="전체 목록 삭제" 
+            android:layout_weight="1"/>
+
+    </LinearLayout>
+
     <ListView
         android:id="@+id/listView_nameinsert"
         android:layout_width="fill_parent"
