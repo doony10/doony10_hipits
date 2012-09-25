@@ -12,7 +12,6 @@ import net.daum.adam.publisher.AdView.OnAdFailedListener;
 import net.daum.adam.publisher.AdView.OnAdLoadedListener;
 import net.daum.adam.publisher.AdView.OnAdWillLoadListener;
 import net.daum.adam.publisher.impl.AdError;
-
 import com.hipits.apps.business.R;
 
 import android.app.Activity;
@@ -28,10 +27,12 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
 
@@ -85,6 +86,11 @@ public class spinnerSort extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.spinnersort);
 		
+		adView = (AdView) findViewById(R.id.adview);
+		Adams adams=new Adams(adView);
+		adams.setDaemon(true);
+		adams.start();
+		
 		spinner_select = (Spinner) findViewById(R.id.spinner_select);
 		listView_list = (ListView) findViewById(R.id.listView_list);
 		ArrayAdapter<String> spinner_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, CATEGORY);
@@ -92,7 +98,15 @@ public class spinnerSort extends Activity {
         spinner_select.setAdapter(spinner_adapter);
 
     	spinnerInsert();
-    	initAdam();
+//    	initAdam();
+    	Button buttonIntent= (Button) findViewById(R.id.button_spinner);
+    	buttonIntent.setOnClickListener(new OnClickListener() {
+			
+			public void onClick(View v) {
+				Intent intent = new Intent(spinnerSort.this, NameInsert.class);
+				startActivity(intent);
+			}
+		});
 		spinner_select.setOnItemSelectedListener(new OnItemSelectedListener() {
 
 			public void onItemSelected(AdapterView<?> arg0, View arg1,
@@ -223,15 +237,5 @@ public class spinnerSort extends Activity {
 		adapter1 = new SpinnerSortAdapter(spinnerSort.this, R.layout.spinnersorttext, nameResult1, numberResult1);
 		adapter2 = new SpinnerSortAdapter(spinnerSort.this, R.layout.spinnersorttext, nameResult2, numberResult2);
 		adapter3 = new SpinnerSortAdapter(spinnerSort.this, R.layout.spinnersorttext, nameResult3, numberResult3);
-	}
-	private void initAdam() {
-		adView = (AdView) findViewById(R.id.adview);
-		adView.setRequestInterval(5);
-		adView.setClientId("38e8Z8cT13980171560");
-
-		adView.setRequestInterval(12);
-		adView.setAnimationType(AnimationType.FLIP_HORIZONTAL);
-
-		adView.setVisibility(View.VISIBLE);
 	}
 }

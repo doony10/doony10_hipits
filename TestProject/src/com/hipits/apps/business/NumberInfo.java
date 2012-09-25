@@ -49,7 +49,10 @@ public class NumberInfo extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.numberinfomation);
 		
-		initAdam();
+		adView = (AdView) findViewById(R.id.adview_info);
+		Adams adams=new Adams(adView);
+		adams.setDaemon(true);
+		adams.start();
 		
 		text_name = (TextView) findViewById(R.id.textView_name);
 		text_number = (TextView) findViewById(R.id.textView_number);
@@ -76,9 +79,9 @@ public class NumberInfo extends Activity {
 		defaultDate = new ArrayList<Integer>();
 		numbers2 = new ArrayList<Integer>();
 		
-		long currentMonth  =System.currentTimeMillis(); //ÇöÀç ½Ã°£À» msec·Î ±¸ÇÑ´Ù.
-		Date dateMonth = new Date(currentMonth);//ÇöÀç ½Ã°£À» ÀúÀåÇÑ´Ù
-		//½Ã°£ Æ÷¸äÀ¸·Î ¸¸µç´Ù.
+		long currentMonth  =System.currentTimeMillis(); //ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ï¿½ï¿½ msecï¿½ï¿½ ï¿½ï¿½ï¿½Ñ´ï¿½.
+		Date dateMonth = new Date(currentMonth);//ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½
+		//ï¿½Ã°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½.
 		SimpleDateFormat currentMonthFormat = new SimpleDateFormat("MM");
 		String currentMonthString = currentMonthFormat.format(dateMonth);
 		String currentMouth = currentMonthFormat.format(dateMonth);
@@ -88,9 +91,9 @@ public class NumberInfo extends Activity {
 		
 		while (!mCursor.isAfterLast()){
 				ydate = mCursor.getLong(indexdate);
-				Date saveDate = new Date(ydate);//ÀúÀåµÈ ½Ã°£À» ÀúÀåÇÑ´Ù
+				Date saveDate = new Date(ydate);//ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½
 				
-				//½Ã°£ Æ÷¸äÀ¸·Î ¸¸µç´Ù.
+				//ï¿½Ã°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½.
 				//SimpleDateFormat monthFormat = new SimpleDateFormat("MM");
 				String MonthString = currentMonthFormat.format(saveDate);
 				monthInt = Integer.parseInt(MonthString);
@@ -104,11 +107,10 @@ public class NumberInfo extends Activity {
 				message = mCursor.getString(indexmessage);
 				text_massage.setText(message);
 			mCursor.moveToNext();
-	    }        
+	    }
         for(int i = 0; i<31; i++){
         	defaultDate.add(i+1);
         }
-        
         for(int i=0; i <defaultDate.size(); i++){
 		int k=0;
 			for (int j = 0; j<aNumberList.size(); j++){
@@ -124,16 +126,16 @@ public class NumberInfo extends Activity {
         	ddo[i]=numbers2.get(i);
         }
         values.add(ddo);
-       //±×·¡ÇÁ Ãâ·ÂÀ» À§ÇÑ ±×·¡ÇÈ ¼Ó¼º ÁöÁ¤ °´Ã¼
+       //ï¿½×·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½×·ï¿½ï¿½ï¿½ ï¿½Ó¼ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼
         XYMultipleSeriesRenderer renderer = new XYMultipleSeriesRenderer();
-      //»ó´Ü Ç¥½Ã Á¦¸ñ°ú ±ÛÀÚ Å©±â        
-        renderer.setChartTitle(currentMouth+"¿ù ¿¬¶ôÈ½¼ö Åë°è");
+      //ï¿½ï¿½ï¿½ Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Å©ï¿½ï¿½        
+        renderer.setChartTitle(currentMouth+"ì›” ì—°ë½ íšŸìˆ˜");
         renderer.setChartTitleTextSize(40);
-        //ºÐ·ù¿¡ ´ëÇÑ ÀÌ¸§
-        String[] titles = new String[] {"ÀÏ¼öº° ¿¬¶ôÈ½¼ö"};
-        //Ç×¸ñÀ» Ç¥½ÃÇÏ´Âµ¥ »ç¿ëµÉ »ö»ó°ª
+        //ï¿½Ð·ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½
+        String[] titles = new String[] {"ì¼ìˆ˜ ë³„ ì—°ë½ íšŸìˆ˜"};
+        //ï¿½×¸ï¿½ï¿½ï¿½ Ç¥ï¿½ï¿½ï¿½Ï´Âµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         int[] colors = new int[] {Color.YELLOW};
-        //ºÐ·ù¸í ±ÛÀÚ Å©±â ¹× °¢ »ö»ó ÁöÁ¤
+        //ï¿½Ð·ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Å©ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         renderer.setLegendTextSize(15);
         int length = colors.length;
         for (int i =0; i<length; i++){
@@ -141,34 +143,34 @@ public class NumberInfo extends Activity {
         	r.setColor(colors[i]);
         	renderer.addSeriesRenderer(r);
         }
-        //X,YÃà Ç×¸ñÀÌ¸§°ú ±ÛÀÚ Å©±â
-        renderer.setXTitle("ÀÏ");
-        renderer.setYTitle("¿¬¶ôÈ½¼ö");
+        //X,Yï¿½ï¿½ ï¿½×¸ï¿½ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Å©ï¿½ï¿½
+        renderer.setXTitle("ì¼");
+        renderer.setYTitle("ì—°ë½íšŸìˆ˜");
         renderer.setAxisTitleTextSize(20);
         
-        //¼öÄ¡°ª ±ÛÀÚ Å©±â / xÃà ÃÖ¼Ò,ÃÖ´ë°ª/ yÃà ÃÖ¼Ò,ÃÖ´ë°ª
+        //ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Å©ï¿½ï¿½ / xï¿½ï¿½ ï¿½Ö¼ï¿½,ï¿½Ö´ë°ª/ yï¿½ï¿½ ï¿½Ö¼ï¿½,ï¿½Ö´ë°ª
         renderer.setLabelsTextSize(15);
         renderer.setXAxisMin(0.5);
         renderer.setXAxisMax(31.5);
         renderer.setYAxisMin(0);
-        renderer.setYAxisMax(5);
+        renderer.setYAxisMax(9);
         
-        //X,YÃà ¶óÀÎ »ö»ó
+        //X,Yï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         renderer.setAxesColor(Color.WHITE);
         
-        //»ó´ÜÁ¦¸ñ, X,YÃà Á¦¸ñ, ¼öÄ¡°ªÀÇ ±ÛÀÚ »ö»ó
+        //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, X,Yï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½Ä¡ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         renderer.setLabelsColor(Color.CYAN);
-        //X,YÃà Á¤·Ä ¹æÇâ
+        //X,Yï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         renderer.setXLabelsAlign(Align.LEFT);
         renderer.setYLabelsAlign(Align.LEFT);
         
-        //X,YÃà ½ºÅ©·Ñ ¿©ºÎ ON/OFF
+        //X,Yï¿½ï¿½ ï¿½ï¿½Å©ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ON/OFF
         renderer.setPanEnabled(false, false);
-        //ZOOM±â´É ON/OFF
+        //ZOOMï¿½ï¿½ï¿½ ON/OFF
         renderer.setZoomEnabled(false, false);
-        //ZOOMºñÀ²
+        //ZOOMï¿½ï¿½ï¿½ï¿½
         renderer.setZoomRate(1.0f);
-        //¸·´ë°£ °£°Ý
+        //ï¿½ï¿½ï¿½ë°£ ï¿½ï¿½ï¿½ï¿½
         renderer.setBarSpacing(0.5f);
         
         XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
@@ -185,15 +187,5 @@ public class NumberInfo extends Activity {
         GraphicalView gv = ChartFactory.getBarChartView(this, dataset, renderer, org.achartengine.chart.BarChart.Type.STACKED);
         LinearLayout llBody = (LinearLayout) findViewById(R.id.graph);
         llBody.addView(gv);
-	}
-	private void initAdam() {
-		adView = (AdView) findViewById(R.id.adview_info);
-		adView.setRequestInterval(5);
-		adView.setClientId("38e8Z8cT13980171560");
-
-		adView.setRequestInterval(12);
-		adView.setAnimationType(AnimationType.FLIP_HORIZONTAL);
-
-		adView.setVisibility(View.VISIBLE);
 	}
 }

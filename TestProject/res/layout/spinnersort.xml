@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="0px"
         android:orientation="vertical"
-        android:layout_weight="1" >
+        android:layout_weight="9" >
 	
         <Spinner
             android:id="@+id/spinner_select"
@@ -20,12 +20,21 @@
             android:layout_height="wrap_content" >
         </ListView>
     </LinearLayout>
+
+    <Button
+        android:id="@+id/button_spinner"
+        android:layout_width="fill_parent"
+        android:layout_height="0px"
+        android:layout_weight="1"
+        android:text="관리 목록 추가" />
+
     	<net.daum.adam.publisher.AdView
                 android:id="@+id/adview"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0px"
                 android:visibility="invisible"
-                android:layout_gravity="bottom">
+                android:layout_gravity="bottom"
+                android:layout_weight="1">
          </net.daum.adam.publisher.AdView>
 
-</FrameLayout>
+</LinearLayout>
